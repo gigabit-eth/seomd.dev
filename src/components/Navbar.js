@@ -151,7 +151,7 @@ export default function Navbar() {
             })}
             <div className="px-6 py-4 flex items-center justify-between border-b border-outline-variant">
               <span className="font-mono text-[12px] font-semibold uppercase tracking-wider text-secondary">
-                DARK MODE
+                {theme === 'dark' ? 'LIGHT MODE' : 'DARK MODE'}
               </span>
               <div className="flex items-center">
                 <input
