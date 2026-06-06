@@ -111,8 +111,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-surface text-on-surface font-body antialiased">
         {/* Structured Schema Data (JSON-LD) */}
-        <script
+        <Script
+          id="structured-data"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
