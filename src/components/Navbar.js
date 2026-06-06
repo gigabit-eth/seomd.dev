@@ -89,14 +89,19 @@ export default function Navbar() {
 
         {/* Right: Theme toggle + CTA */}
         <div className="hidden md:flex items-center gap-3 shrink-0">
-          <button
-            onClick={toggleTheme}
-            className="font-mono text-[11px] font-semibold uppercase tracking-wider border border-outline hover:border-primary px-3 py-1.5 transition-colors cursor-pointer bg-transparent text-primary"
-            aria-label="Toggle light/dark mode"
+          <input
+            type="checkbox"
             id="theme-toggle"
-          >
-            MODE: {theme ? theme.toUpperCase() : '...'}
-          </button>
+            className="sr-only"
+            checked={theme === 'dark'}
+            onChange={toggleTheme}
+            disabled={theme === null}
+          />
+          <label
+            className={`slider-v2 text-[10px] ${theme === null ? 'opacity-50 pointer-events-none' : ''}`}
+            htmlFor="theme-toggle"
+            aria-label="Toggle dark mode"
+          />
           <Link
             href="/spec"
             className="btn-primary py-2 px-4 text-[12px]"
@@ -141,15 +146,25 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <div className="px-6 py-4 flex items-center gap-3">
-              <button
-                onClick={toggleTheme}
-                className="font-mono text-[11px] font-semibold uppercase tracking-wider border border-outline hover:border-primary px-3 py-1.5 transition-colors cursor-pointer bg-transparent text-primary w-full text-left"
-                aria-label="Toggle light/dark mode"
-                id="theme-toggle-mobile"
-              >
-                MODE: {theme ? theme.toUpperCase() : '...'}
-              </button>
+            <div className="px-6 py-4 flex items-center justify-between border-b border-outline-variant">
+              <span className="font-mono text-[12px] font-semibold uppercase tracking-wider text-secondary">
+                DARK MODE
+              </span>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="theme-toggle-mobile"
+                  className="sr-only"
+                  checked={theme === 'dark'}
+                  onChange={toggleTheme}
+                  disabled={theme === null}
+                />
+                <label
+                  className={`slider-v2 text-[10px] ${theme === null ? 'opacity-50 pointer-events-none' : ''}`}
+                  htmlFor="theme-toggle-mobile"
+                  aria-label="Toggle dark mode"
+                />
+              </div>
             </div>
           </nav>
         </div>

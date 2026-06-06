@@ -1,4 +1,5 @@
 import './globals.css';
+import ThemeSync from '@/components/ThemeSync';
 import { Anton, Hanken_Grotesk, EB_Garamond, JetBrains_Mono } from 'next/font/google';
 
 const anton = Anton({
@@ -98,6 +99,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-surface text-on-surface font-body antialiased">
+        <ThemeSync />
         {children}
       </body>
     </html>
