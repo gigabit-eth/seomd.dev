@@ -1,4 +1,50 @@
-// mdx-components.js — maps standard MDX elements to Protocol Industrial design system
+import React from 'react';
+
+function autoLinkFoxcite(children) {
+  if (typeof children === 'string') {
+    const regex = /(foxcite)/gi;
+    const parts = children.split(regex);
+    if (parts.length === 1) return children;
+
+    return parts.map((part, i) => {
+      if (part.toLowerCase() === 'foxcite') {
+        return (
+          <a
+            key={i}
+            href="https://foxcite.com"
+            className="text-primary underline underline-offset-2 hover:no-underline font-mono text-[0.9em]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  }
+
+  if (Array.isArray(children)) {
+    return children.map((child, idx) => {
+      const result = autoLinkFoxcite(child);
+      if (React.isValidElement(result)) {
+        return React.cloneElement(result, { key: result.key ?? idx });
+      }
+      return result;
+    });
+  }
+
+  if (React.isValidElement(children)) {
+    if (children.type === 'a') return children;
+    if (children.props && children.props.children) {
+      return React.cloneElement(children, {
+        children: autoLinkFoxcite(children.props.children),
+      });
+    }
+  }
+
+  return children;
+}
 
 export function useMDXComponents(components) {
   return {
@@ -27,7 +73,7 @@ export function useMDXComponents(components) {
     // Body
     p: ({ children }) => (
       <p className="font-body text-body-md leading-body text-on-surface mb-4">
-        {children}
+        {autoLinkFoxcite(children)}
       </p>
     ),
 
@@ -53,7 +99,7 @@ export function useMDXComponents(components) {
     blockquote: ({ children }) => (
       <div className="protip my-6">
         <div className="protip-label">Note</div>
-        <div className="font-body text-body-md text-on-surface">{children}</div>
+        <div className="font-body text-body-md text-on-surface">{autoLinkFoxcite(children)}</div>
       </div>
     ),
 
@@ -66,7 +112,7 @@ export function useMDXComponents(components) {
     ),
     li: ({ children }) => (
       <li className="font-body text-body-md leading-body flex gap-3 before:content-['—'] before:text-secondary before:font-mono before:text-sm before:mt-0.5 before:shrink-0">
-        <span>{children}</span>
+        <span>{autoLinkFoxcite(children)}</span>
       </li>
     ),
 
@@ -86,7 +132,7 @@ export function useMDXComponents(components) {
     ),
     td: ({ children }) => (
       <td className="font-body text-body-sm px-3 py-2.5 border-b border-outline-variant align-top">
-        {children}
+        {autoLinkFoxcite(children)}
       </td>
     ),
 
