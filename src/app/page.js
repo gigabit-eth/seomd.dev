@@ -204,7 +204,9 @@ npx seomd validate`}</pre>
             </div>
 
             <div className="code-block">
-              <pre>{`# SEO.md — My Brand
+              <pre>{`# SEO.md
+              
+## My Brand
 
 ## Site
 site:
