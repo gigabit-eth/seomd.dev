@@ -22,7 +22,7 @@ export default function SpecFooter({
         </p>
 
         <h2 className="font-display text-display-lg uppercase leading-display mb-16">
-          DONE &amp; SEALED
+          DICTATE THE ANSWER
         </h2>
 
         {/* Signature line */}

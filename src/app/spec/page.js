@@ -435,7 +435,28 @@ site:
 
           <div className="border-t-2 border-primary mb-4">
             {[
-              { name: 'platform.provider', type: 'string', required: false, desc: 'Connected provider: foxcite | manual | ahrefs | semrush | null.' },
+              {
+                name: 'platform.provider',
+                type: 'string',
+                required: false,
+                desc: (
+                  <>
+                    Connected provider:{' '}
+                    <a
+                      href="https://foxcite.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-0.5 text-primary hover:underline"
+                    >
+                      foxcite
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5 shrink-0">
+                        <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
+                      </svg>
+                    </a>{' '}
+                    | manual | ahrefs | semrush | null.
+                  </>
+                ),
+              },
               { name: 'platform.project_id', type: 'string', required: false, desc: 'Platform project or workspace ID.' },
             ].map((f) => (
               <Field key={f.name} {...f} />
