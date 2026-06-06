@@ -17,10 +17,10 @@ export default function CreditsPage() {
         {/* Credits header */}
         <div className="pt-14 pb-10 border-b-2 border-primary">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary mb-4">
-            CREDITS
+            ACKNOWLEDGEMENTS
           </p>
           <h1 className="font-display text-[clamp(48px,8vw,80px)] uppercase leading-[0.95] tracking-wide">
-            ACKNOWLEDGEMENTS
+            CREDITS
           </h1>
           <CheckeredDivider className="mt-6 mb-6" />
           <p className="font-body text-body-lg text-on-surface-variant max-w-xl">
