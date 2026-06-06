@@ -71,7 +71,7 @@ export default function HomePage() {
               READ THE SPEC →
             </Link>
             <a
-              href="https://github.com/seomd/seomd-cli"
+              href="https://github.com/seomd/cli"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary"

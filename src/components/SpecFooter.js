@@ -72,7 +72,7 @@ export default function SpecFooter({
             Blog
           </a>
           <a
-            href="https://github.com/seomd/seomd-cli"
+            href="https://github.com/seomd/cli"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-[12px] text-secondary hover:text-primary transition-colors"

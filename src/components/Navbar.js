@@ -14,6 +14,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState(null);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -25,9 +26,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handler);
   }, []);
 
+  useEffect(() => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    setTheme(currentTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('theme', nextTheme);
+    setTheme(nextTheme);
+  };
+
   return (
     <header
-      className={`sticky top-0 z-40 bg-surface border-b-2 border-primary transition-shadow duration-200 ${scrolled ? 'shadow-[0_2px_0_0_#000]' : ''}`}
+      className={`sticky top-0 z-40 bg-surface border-b-2 border-primary transition-shadow duration-200 ${scrolled ? 'shadow-[0_2px_0_0_var(--color-primary)]' : ''}`}
     >
       {/* ── Checkered top accent bar ── */}
       <div className="checkered-divider" style={{ height: '8px' }} />
@@ -74,9 +87,16 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right: Version badge + CTA */}
+        {/* Right: Theme toggle + CTA */}
         <div className="hidden md:flex items-center gap-3 shrink-0">
-          <span className="version-badge">v1.0-ALPHA</span>
+          <button
+            onClick={toggleTheme}
+            className="font-mono text-[11px] font-semibold uppercase tracking-wider border border-outline hover:border-primary px-3 py-1.5 transition-colors cursor-pointer bg-transparent text-primary"
+            aria-label="Toggle light/dark mode"
+            id="theme-toggle"
+          >
+            MODE: {theme ? theme.toUpperCase() : '...'}
+          </button>
           <Link
             href="/spec"
             className="btn-primary py-2 px-4 text-[12px]"
@@ -122,7 +142,14 @@ export default function Navbar() {
               );
             })}
             <div className="px-6 py-4 flex items-center gap-3">
-              <span className="version-badge">V1.0-ALPHA</span>
+              <button
+                onClick={toggleTheme}
+                className="font-mono text-[11px] font-semibold uppercase tracking-wider border border-outline hover:border-primary px-3 py-1.5 transition-colors cursor-pointer bg-transparent text-primary w-full text-left"
+                aria-label="Toggle light/dark mode"
+                id="theme-toggle-mobile"
+              >
+                MODE: {theme ? theme.toUpperCase() : '...'}
+              </button>
             </div>
           </nav>
         </div>
