@@ -12,9 +12,9 @@ export default function ProtocolHeader({
 }) {
   return (
     <header className="border-b border-outline-variant">
-      <div className="flex items-start justify-between px-6 py-3">
-        {/* Left: Protocol Name (stacked 3x like the mockup) */}
-        <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between px-6 py-4 sm:py-3 gap-4 sm:gap-0">
+        {/* Left: Protocol Name */}
+        <div className="flex flex-col items-center sm:items-start gap-0.5">
           <span className="font-mono text-label-mono font-semibold text-secondary uppercase tracking-widest">
             PROTOCOL NAME
           </span>
@@ -32,7 +32,7 @@ export default function ProtocolHeader({
         </div>
 
         {/* Right: Reference */}
-        <div className="flex flex-col items-end gap-0.5">
+        <div className="flex flex-col items-center sm:items-end gap-0.5">
           <span className="font-mono text-[11px] uppercase tracking-widest text-secondary">
             REFERENCE
           </span>

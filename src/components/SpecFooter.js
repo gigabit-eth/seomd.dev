@@ -26,8 +26,8 @@ export default function SpecFooter({
         </h2>
 
         {/* Signature line */}
-        <div className="flex justify-between items-end border-t border-on-surface pt-4 max-w-3xl mx-auto">
-          <div className="text-center">
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end border-t border-on-surface pt-4 max-w-3xl mx-auto gap-8 sm:gap-4">
+          <div className="text-center flex flex-col items-center">
             <div className="w-40 h-px bg-on-surface mb-2" />
             <p className="font-mono text-[11px] uppercase tracking-widest text-secondary">
               VERIFIED BY
@@ -37,7 +37,7 @@ export default function SpecFooter({
             </p>
           </div>
 
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center">
             <div className="w-40 h-px bg-on-surface mb-2" />
             <p className="font-mono text-[11px] uppercase tracking-widest text-secondary">
               TIMESTAMP
@@ -47,7 +47,7 @@ export default function SpecFooter({
             </p>
           </div>
 
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center">
             <div className="w-40 h-px bg-on-surface mb-2" />
             <p className="font-mono text-[11px] uppercase tracking-widest text-secondary">
               LOCATION

@@ -103,7 +103,7 @@ export default function SpecPage() {
         </nav>
 
         {/* Main spec body */}
-        <article className="flex-1 px-8 lg:px-12 py-12 max-w-4xl">
+        <article className="flex-1 min-w-0 px-0 sm:px-8 lg:px-12 py-12 max-w-4xl">
 
           {/* Title block */}
           <div className="mb-4">
