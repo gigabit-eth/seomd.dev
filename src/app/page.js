@@ -21,7 +21,23 @@ const FEATURES = [
   {
     index: '02',
     title: 'PLATFORM WRITES BACK',
-    desc: 'Connect a platform provider like Foxcite to populate _analysis blocks with live citation rates, gap scores, and competitor intelligence.',
+    desc: (
+      <>
+        Connect a platform provider like{' '}
+        <a
+          href="https://foxcite.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-0.5 text-primary hover:underline font-semibold"
+        >
+          Foxcite
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5 shrink-0">
+            <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
+          </svg>
+        </a>{' '}
+        to populate <code>_analysis</code> blocks with live citation rates, gap scores, and competitor intelligence.
+      </>
+    ),
   },
   {
     index: '03',
