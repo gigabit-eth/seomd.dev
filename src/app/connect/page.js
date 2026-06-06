@@ -74,7 +74,7 @@ export default function ConnectPage() {
                   Install the SEO.md CLI tool globally on your system:
                 </p>
                 <pre className="code-block font-mono text-[13px] p-3 overflow-x-auto select-all bg-surface border border-outline-variant">
-                  npm install -g seomd
+                  npm install -g seomd-cli
                 </pre>
               </div>
 

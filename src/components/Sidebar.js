@@ -10,7 +10,7 @@ const NAV_SECTIONS = [
   { index: '02', label: 'Quick Start', href: '/#quickstart' },
   { index: '03', label: 'Blog', href: '/blog' },
   { index: '04', label: 'Contributors', href: '/#contributors' },
-  { index: '05', label: 'GitHub', href: 'https://github.com/seomd/seomd-cli', external: true },
+  { index: '05', label: 'GitHub', href: 'https://github.com/seomd/cli', external: true },
 ];
 
 export default function Sidebar() {

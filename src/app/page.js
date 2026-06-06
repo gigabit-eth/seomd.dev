@@ -112,16 +112,16 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="code-block">
               <pre>{`# Install the CLI
-npm install -g seomd
+npm install -g seomd-cli
 
 # Scaffold your SEO.md
-npx seomd init
+seomd init
 
 # Check your citation status
-npx seomd status
+seomd status
 
 # Validate against the spec
-npx seomd validate`}</pre>
+seomd validate`}</pre>
             </div>
 
             <div>
