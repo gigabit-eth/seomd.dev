@@ -269,7 +269,7 @@ aeo:
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="https://github.com/seomd/seomd-cli"
+              href="https://github.com/seomd/cli"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"

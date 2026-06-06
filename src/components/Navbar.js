@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from './Logo';
 
 const NAV_LINKS = [
   { index: '01', label: 'Spec', href: '/spec' },
@@ -51,10 +52,11 @@ export default function Navbar() {
         {/* Left: Logo */}
         <Link
           href="/"
-          className="font-display text-[22px] uppercase tracking-wide leading-none hover:opacity-70 transition-opacity shrink-0"
+          className="flex items-center gap-2 font-display text-[22px] uppercase tracking-wide leading-none hover:opacity-70 transition-opacity shrink-0"
           id="nav-logo"
         >
-          SEO.MD
+          <Logo className="w-6 h-6 text-primary" />
+          <span>SEO.MD</span>
         </Link>
 
         {/* Center: Desktop nav links */}
@@ -95,10 +97,9 @@ export default function Navbar() {
             className="sr-only"
             checked={theme === 'dark'}
             onChange={toggleTheme}
-            disabled={theme === null}
           />
           <label
-            className={`slider-v2 text-[10px] ${theme === null ? 'opacity-50 pointer-events-none' : ''}`}
+            className="slider-v2 text-[10px]"
             htmlFor="theme-toggle"
             aria-label="Toggle dark mode"
           />
@@ -157,10 +158,9 @@ export default function Navbar() {
                   className="sr-only"
                   checked={theme === 'dark'}
                   onChange={toggleTheme}
-                  disabled={theme === null}
                 />
                 <label
-                  className={`slider-v2 text-[10px] ${theme === null ? 'opacity-50 pointer-events-none' : ''}`}
+                  className="slider-v2 text-[10px]"
                   htmlFor="theme-toggle-mobile"
                   aria-label="Toggle dark mode"
                 />

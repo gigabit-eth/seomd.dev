@@ -597,30 +597,36 @@ code:not(.code-block code) {
 }
 
 :root[data-theme="dark"] .slider-v2::before {
-  background: #333333;
+  background: #e4e4e4;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .slider-v2::before {
-    background: #333333;
-  }
-}
-
-input:checked+.slider-v2::before {
-  background: #e4e4e4;
-  box-shadow: 0 0.08em 0.15em -0.1em rgba(0, 0, 0, 0.3) inset;
-}
-
-:root[data-theme="dark"] input:checked+.slider-v2::before {
-  background: #e4e4e4;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) input:checked+.slider-v2::before {
     background: #cfcfcf;
   }
 }
 
-input:checked+.slider-v2::after {
+.slider-v2::after {
+  position: absolute;
+  content: '';
+  width: 1.4em;
+  height: 1.4em;
+  top: 0.2em;
+  left: 0.25em;
+  border-radius: 50%;
+  transition: left 250ms ease-in-out;
+  background: linear-gradient(#ffffff 10%, #eeeeee);
+  box-shadow:
+    0 0.1em 0.15em -0.05em rgba(255, 255, 255, 0.9) inset,
+    0 0.2em 0.2em -0.12em rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme="dark"] .slider-v2::after {
   left: 1.75em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .slider-v2::after {
+    left: 1.75em;
+  }
 }

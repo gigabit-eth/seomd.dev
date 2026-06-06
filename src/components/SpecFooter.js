@@ -62,11 +62,11 @@ export default function SpecFooter({
       {/* Site footer */}
       <div className="border-t border-outline-variant px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
         <p className="font-mono text-[12px] text-secondary">
-          © {new Date().getFullYear()} SEO.md Contributors — MIT License
+          © {new Date().getFullYear()} SEO.md - MIT License
         </p>
         <div className="flex gap-6">
-          <a href="/spec" className="font-mono text-[12px] text-secondary hover:text-primary transition-colors">
-            Specification
+          <a href="/credits" className="font-mono text-[12px] text-secondary hover:text-primary transition-colors">
+            Credits
           </a>
           <a href="/blog" className="font-mono text-[12px] text-secondary hover:text-primary transition-colors">
             Blog
