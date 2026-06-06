@@ -4,6 +4,7 @@ import SpecFooter from '@/components/SpecFooter';
 import CheckeredDivider from '@/components/CheckeredDivider';
 import RequirementSeal from '@/components/RequirementSeal';
 import VersionBadge from '@/components/VersionBadge';
+import { Link } from 'lucide-react';
 
 export const metadata = {
   title: 'SEO.md Specification',
@@ -36,10 +37,19 @@ function SectionHeading({ index, id, children }) {
   return (
     <h2
       id={id}
-      className="font-display text-headline-lg uppercase leading-headline mt-14 mb-4 pb-2 border-b-2 border-primary flex items-baseline gap-4 scroll-mt-8"
+      className="group font-display text-headline-lg uppercase leading-headline mt-14 mb-4 pb-2 border-b-2 border-primary flex items-center gap-4 scroll-mt-8"
     >
       <span className="font-mono text-[20px] font-semibold text-secondary shrink-0">{index}.</span>
-      {children}
+      <span className="flex items-center gap-2">
+        {children}
+        <a
+          href={`#${id}`}
+          className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-secondary hover:text-primary flex items-center justify-center p-1"
+          aria-label={`Link to section ${children}`}
+        >
+          <Link className="w-4 h-4 shrink-0" />
+        </a>
+      </span>
     </h2>
   );
 }

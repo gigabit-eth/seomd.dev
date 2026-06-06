@@ -7,8 +7,9 @@ import Logo from './Logo';
 
 const NAV_LINKS = [
   { index: '01', label: 'Spec', href: '/spec' },
-  { index: '02', label: 'Blog', href: '/blog' },
-  { index: '03', label: 'GitHub', href: 'https://github.com/seomd/cli', external: true },
+  { index: '02', label: 'Providers', href: '/providers' },
+  { index: '03', label: 'Blog', href: '/blog' },
+  { index: '04', label: 'GitHub', href: 'https://github.com/seomd/cli', external: true },
 ];
 
 export default function Navbar() {
@@ -104,7 +105,7 @@ export default function Navbar() {
             aria-label="Toggle dark mode"
           />
           <Link
-            href="/spec"
+            href="/connect"
             className="btn-primary py-2 px-4 text-[12px]"
             id="nav-cta"
           >
