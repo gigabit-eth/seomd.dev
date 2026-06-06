@@ -8,8 +8,9 @@ import Logo from './Logo';
 const NAV_LINKS = [
   { index: '01', label: 'Spec', href: '/spec' },
   { index: '02', label: 'Providers', href: '/providers' },
-  { index: '03', label: 'Blog', href: '/blog' },
-  { index: '04', label: 'GitHub', href: 'https://github.com/seomd/cli', external: true },
+  { index: '03', label: 'Connect', href: '/connect' },
+  { index: '04', label: 'Blog', href: '/blog' },
+  // { index: '05', label: 'GitHub', href: 'https://github.com/seomd/cli', external: true },
 ];
 
 export default function Navbar() {
