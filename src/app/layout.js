@@ -35,9 +35,12 @@ export const metadata = {
     template: '%s | SEO.md',
   },
   description:
-    'SEO.md is an open standard for AI Engine Optimization (AEO). A version-controlled, human-readable spec file that tells AI search engines — ChatGPT, Claude, Perplexity, Gemini — exactly how to understand and cite your brand.',
+    'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
   keywords: ['SEO.md', 'AEO', 'AI Engine Optimization', 'LLM SEO', 'citation tracking', 'open standard', 'seomd'],
   authors: [{ name: 'SEO.md Contributors' }],
+  alternates: {
+    canonical: 'https://seomd.dev',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -45,7 +48,7 @@ export const metadata = {
     siteName: 'SEO.md',
     title: 'SEO.md — The Open Standard for AI Search Optimization',
     description:
-      'A version-controlled spec file that tells AI search engines how to understand and cite your brand. Like CLAUDE.md or AGENTS.md, but for SEO.',
+      'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
     images: [
       {
         url: '/og-image.png',
@@ -57,9 +60,10 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@foxcite',
     title: 'SEO.md — The Open Standard for AI Search Optimization',
     description:
-      'A version-controlled spec file that tells AI search engines how to understand and cite your brand.',
+      'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -86,7 +90,9 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0a0a0a" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -104,6 +110,24 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-surface text-on-surface font-body antialiased">
+        {/* Structured Schema Data (JSON-LD) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "SEO.md",
+              "url": "https://seomd.dev",
+              "description": "The open standard for AI Engine Optimization (AEO).",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://seomd.dev/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
