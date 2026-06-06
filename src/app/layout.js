@@ -1,0 +1,87 @@
+import './globals.css';
+import { Anton, Hanken_Grotesk, EB_Garamond, JetBrains_Mono } from 'next/font/google';
+
+const anton = Anton({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const hankenGrotesk = Hanken_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  variable: '--font-accent',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+export const metadata = {
+  metadataBase: new URL('https://seomd.dev'),
+  title: {
+    default: 'SEO.md — The Open Standard for AI Search Optimization',
+    template: '%s | SEO.md',
+  },
+  description:
+    'SEO.md is an open standard for AI Engine Optimization (AEO). A version-controlled, human-readable spec file that tells AI search engines — ChatGPT, Claude, Perplexity, Gemini — exactly how to understand and cite your brand.',
+  keywords: ['SEO.md', 'AEO', 'AI Engine Optimization', 'LLM SEO', 'citation tracking', 'open standard', 'seomd'],
+  authors: [{ name: 'SEO.md Contributors' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://seomd.dev',
+    siteName: 'SEO.md',
+    title: 'SEO.md — The Open Standard for AI Search Optimization',
+    description:
+      'A version-controlled spec file that tells AI search engines how to understand and cite your brand. Like CLAUDE.md or AGENTS.md, but for SEO.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SEO.md — The Open Standard for AI Search Optimization',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SEO.md — The Open Standard for AI Search Optimization',
+    description:
+      'A version-controlled spec file that tells AI search engines how to understand and cite your brand.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html
+      lang="en"
+      className={`${anton.variable} ${hankenGrotesk.variable} ${ebGaramond.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="bg-surface text-on-surface font-body antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}

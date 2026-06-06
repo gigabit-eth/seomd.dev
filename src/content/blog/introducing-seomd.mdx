@@ -1,0 +1,94 @@
+---
+title: "Introducing SEO.md - The Open Standard for AI Search Optimization"
+date: "2026-06-05"
+author: "SEO.md Team"
+summary: "The open standard for AI Engine Optimization - what it is, why it matters, and how to get started in under five minutes."
+tags: ["announcement", "aeo", "open-standard"]
+---
+
+SEO.md is a plain-text file that lives in your repository root. It tells AI search engines - ChatGPT, Claude, Perplexity, Gemini - exactly how to understand and cite your brand.
+
+It is an open standard, like `CLAUDE.md` or `AGENTS.md`, but purpose-built for AI Engine Optimization (AEO).
+
+## Why We Built It
+
+Traditional SEO is optimized for Google's algorithm. You write content, build backlinks, and hope the crawler rewards you with rankings.
+
+But AI search is different. When someone asks ChatGPT "what's the best tool for X?", there's no ranking. There's a citation - or there isn't. The difference between being cited and being invisible comes down to how well the AI *understands your brand*.
+
+Right now, that understanding is implicit. AI engines infer it from your content, your backlinks, your schema markup. Most brands leave this to chance.
+
+**SEO.md makes it explicit.**
+
+## What It Looks Like
+
+```yaml
+# SEO.md
+
+## My Brand
+
+## Site
+site:
+  type: saas
+  domain: mybrand.com
+  canonical: https://mybrand.com
+
+## Keywords
+keywords:
+  primary: "ai citation tracking"
+  secondary:
+    - "llm seo"
+    - "aeo tools"
+
+## AEO
+aeo:
+  answer_first_format: true
+  allowed_bots:
+    - GPTBot
+    - ClaudeBot
+    - PerplexityBot
+```
+
+Two parts. A section you control - **founder declares** - and a `_analysis` block that your connected platform writes back with live data.
+
+## The Field Ownership Model
+
+This is the core insight behind SEO.md: the separation of *strategy* from *intelligence*.
+
+**Founder declares** (no prefix) - You own these fields. They define your brand identity, keyword strategy, intent queries, and AEO rules. Change them freely. Commit to Git.
+
+**Platform writes back** (`_analysis:` prefix) - These are populated by your connected analysis platform with live citation rates, gap scores, and competitor intelligence. Never edit manually.
+
+This model means your SEO strategy lives in your codebase, is version-controlled, and is legible to both humans and machines.
+
+## Getting Started
+
+Install the CLI and scaffold your first `SEO.md` in under two minutes:
+
+```bash
+# Install globally
+npm install -g seomd
+
+# Interactive setup
+npx seomd init
+
+# Validate your file against the spec
+npx seomd validate
+
+# Check your citation status (requires platform connection)
+npx seomd status
+```
+
+The `init` command asks you five questions - your brand name, domain, site type, primary keyword, and top competitors - and generates a complete `SEO.md` tailored to your site type.
+
+## The Spec Is Open
+
+SEO.md is an open standard, MIT licensed, and governed by its contributors. The specification lives at [seomd.dev/spec](/spec).
+
+We built this because the `CLAUDE.md` standard showed us what's possible when context becomes a first-class citizen of a project. AI agents are dramatically more effective when you give them explicit instructions instead of hoping they infer the right behavior.
+
+The same principle applies to AI search engines. **Give them the spec. Stop hoping for inference.**
+
+---
+
+[Read the full specification →](/spec)

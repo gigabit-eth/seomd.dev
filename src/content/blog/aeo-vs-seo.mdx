@@ -1,0 +1,100 @@
+---
+title: "AEO vs SEO: Why AI Engine Optimization Changes Everything"
+date: "2026-06-05"
+author: "SEO.md Team"
+summary: "Traditional SEO optimizes for search engine rankings. AEO optimizes for AI engine citations. The mechanics are fundamentally different — here's what that means for your strategy."
+tags: ["aeo", "strategy", "ai-search"]
+---
+
+For twenty years, SEO meant one thing: rank higher on Google.
+
+You optimized page titles. You built backlinks. You chased Core Web Vitals. The goal was position one — or close to it — on a list of blue links.
+
+That model is breaking.
+
+## The Shift to AI Search
+
+When a user asks ChatGPT "what's the best tool for tracking AI citations?", they don't see ten links. They see one answer. That answer cites two or three sources. Every other tool in your category is invisible.
+
+This is **Answer Engine Optimization** territory. And the mechanics are fundamentally different from traditional SEO.
+
+## What AI Engines Actually Care About
+
+Traditional search engines evaluate:
+
+- PageRank and link authority
+- Keyword density and relevance
+- Technical performance (CLS, LCP, FID)
+- E-E-A-T signals
+
+AI search engines evaluate something different. They need to *understand your brand* well enough to cite it accurately. That means:
+
+- **Clarity of identity** — Is it unambiguous what your brand does and who it serves?
+- **Answer-first structure** — Does your content deliver a direct answer before elaborating?
+- **Intent coverage** — Do you have content that directly addresses the queries your buyers ask AI engines?
+- **Structured data signals** — Do you have FAQ schema, Organization schema, BreadcrumbList?
+- **Bot access** — Have you explicitly permitted AI crawlers (GPTBot, ClaudeBot, PerplexityBot)?
+
+## The Citation Gap Problem
+
+Most brands have a *citation gap*: the difference between how often AI engines cite them and how often they cite their competitors.
+
+A citation gap of 80 means your top competitor is cited in 80% of relevant AI search responses that you're missing from. That's lost pipeline — invisibility at the exact moment your buyer is making a decision.
+
+Traditional SEO tools don't measure this. That's the gap SEO.md is designed to close.
+
+## The AEO Stack
+
+An effective AEO strategy has three layers:
+
+**1. Declaration** — You explicitly define your brand, keywords, intent queries, and AEO rules in a machine-readable file. This is what `SEO.md` handles.
+
+**2. Analysis** — A platform connects to AI engines, runs your intent queries, and measures citation rates. It writes the results back to your `_analysis` blocks.
+
+**3. Remediation** — You use the gap scores to prioritize content creation, structured data additions, and bot access changes that directly improve citation rates.
+
+```yaml
+## AEO
+
+aeo:
+  answer_first_format: true      # critical for AI citation
+  faq_on_all_key_pages: true
+  structured_data_priority: high
+  content_freshness_target: 30d
+  
+  ### PLATFORM WRITES BACK
+  _analysis:
+    overall_citation_rate: 0.34   # you're cited in 34% of relevant queries
+    overall_gap_score: 66         # 66% gap to close
+    engines_tracked:
+      - chatgpt
+      - claude
+      - perplexity
+      - gemini
+```
+
+## Why a File, Not a Dashboard?
+
+The choice to make SEO.md a file — not a SaaS dashboard — is deliberate.
+
+**It lives where your code lives.** Your SEO strategy is version-controlled, reviewable in PRs, and visible to every engineer who touches the codebase.
+
+**It's agent-native.** AI coding tools can read it directly. When you ask your AI assistant to "write a blog post targeting our primary keyword", it has the full context without you having to copy-paste from a dashboard.
+
+**It's portable.** Connect any platform provider. No lock-in. The spec is open; the tooling is a commodity.
+
+**It forces clarity.** Writing down your primary keyword and intent queries is clarifying in a way that clicking through a dashboard never is. If you can't fill out the `intent` section of your `SEO.md`, that's a signal your strategy needs work.
+
+## The Standard, Not the Tool
+
+SEO.md is a standard, not a product. Like `CLAUDE.md` standardized AI agent instructions, or `AGENTS.md` standardized multi-agent contracts, `SEO.md` aims to standardize the way brands communicate their search intent to AI systems.
+
+The CLI is the reference implementation. Platforms that integrate with the standard — FoxCite, and others — provide the intelligence layer. The spec itself is open and MIT licensed.
+
+AEO is not replacing SEO. Google search isn't going away. But the marginal return on optimizing for blue-link rankings is declining, and the marginal return on being cited by AI engines is increasing.
+
+**Get your SEO.md in place before your competitors do.**
+
+---
+
+[Get started with the CLI →](#quickstart) · [Read the specification →](/spec)
