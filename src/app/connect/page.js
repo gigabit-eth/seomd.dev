@@ -87,7 +87,7 @@ export default function ConnectPage() {
           </div>
 
           {/* Method 2: Foxcite */}
-          <div className="border border-primary p-6 md:p-8 bg-surface-container space-y-4">
+          <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
                 METHOD 02
