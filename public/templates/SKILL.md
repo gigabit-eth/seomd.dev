@@ -8,7 +8,7 @@ Sets up this SEO.md Next.js starter completely automatically, from initial confi
 ## How to Use This Skill
 
 1. Open this repository with your coding agent
-2. Paste this URL into your agent: https://seomd.dev/SKILL.md
+2. Paste this URL into your agent: https://seomd.dev/templates/SKILL.md
 3. Tell your agent: "Use the SEO.md Starter Setup Skill to configure this project"
 
 ---
