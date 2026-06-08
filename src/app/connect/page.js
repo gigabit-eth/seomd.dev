@@ -1,10 +1,11 @@
-import Navbar from '@/components/Navbar';
-import CheckeredDivider from '@/components/CheckeredDivider';
-import SpecFooter from '@/components/SpecFooter';
+import Navbar from "@/components/Navbar";
+import CheckeredDivider from "@/components/CheckeredDivider";
+import SpecFooter from "@/components/SpecFooter";
 
 export const metadata = {
-  title: 'Connect Platform',
-  description: 'Connect your SEO.md specification file to automated writeback providers and get API keys.',
+  title: "Connect Platform",
+  description:
+    "Connect your SEO.md specification file to automated writeback providers and get API keys.",
 };
 
 export default function ConnectPage() {
@@ -23,17 +24,73 @@ export default function ConnectPage() {
           </h1>
           <CheckeredDivider className="mt-6 mb-6" />
           <p className="font-body text-body-lg text-on-surface-variant max-w-xl">
-            Get an API key and connect your SEO.md standard file to writeback automation platforms.
+            Get an API key and connect your SEO.md standard file to writeback
+            automation platforms.
           </p>
         </div>
 
         {/* Connection Methods */}
         <div className="py-12 space-y-12">
-          {/* Method 1: Foxcite */}
-          <div className="border border-primary p-6 md:p-8 bg-surface-container space-y-4">
+          {/* Method 1: Platform Deployments */}
+          <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
                 METHOD 01
+              </span>
+            </div>
+            <h2 className="font-display text-headline-sm uppercase tracking-wide">
+              Agent-Native Platform Deployments
+            </h2>
+            <p className="font-body text-on-surface-variant leading-relaxed max-w-2xl">
+              Deploy a Nextjs starter template that already includes{" "}
+              <code>SEO.md</code>
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <a
+                href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fseomd%2Fstarter-next"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center"
+              >
+                <img
+                  src="https://vercel.com/button"
+                  alt="Deploy with Vercel"
+                  className="h-10 w-auto"
+                />
+              </a>
+              <a
+                href="https://app.netlify.com/start/deploy?repository=https://github.com/seomd/starter-next&fullConfiguration=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center"
+              >
+                <img
+                  src="https://www.netlify.com/img/deploy/button.svg"
+                  alt="Deploy to Netlify"
+                  className="h-10 w-auto"
+                />
+              </a>
+              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
+                v0
+              </div>
+              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
+                Lovable
+              </div>
+              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
+                Replit
+              </div>
+            </div>
+          </div>
+
+          {/* Method 2: Foxcite */}
+          <div className="border border-primary p-6 md:p-8 bg-surface-container space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
+                METHOD 02
               </span>
               <span className="status-pill active">RECOMMENDED</span>
             </div>
@@ -41,7 +98,9 @@ export default function ConnectPage() {
               Automated Integration via Foxcite
             </h2>
             <p className="font-body text-on-surface-variant leading-relaxed max-w-2xl">
-              Foxcite reads your SEO.md specification, monitors search engines in real-time, and automatically pushes citation and gap analysis writebacks directly back to your GitHub repository.
+              Foxcite reads your SEO.md specification, monitors search engines
+              in real-time, and automatically pushes citation and gap analysis
+              writebacks directly back to your GitHub repository.
             </p>
             <div className="pt-2">
               <a
@@ -55,13 +114,14 @@ export default function ConnectPage() {
             </div>
           </div>
 
-          {/* Method 2: Manual CLI Setup */}
+          {/* Method 3: Manual CLI Setup */}
           <div className="space-y-6">
             <h2 className="font-display text-headline-sm uppercase tracking-wide">
-              Method 02: CLI Key Authentication
+              Method 03: CLI Key Authentication
             </h2>
             <p className="font-body text-on-surface-variant leading-relaxed">
-              If you are using the CLI to run checks, analyze, or sync local directories manually:
+              If you are using the CLI to run checks, analyze, or sync local
+              directories manually:
             </p>
 
             <div className="space-y-6 border-l-2 border-outline-variant pl-6 mt-4">
@@ -84,7 +144,8 @@ export default function ConnectPage() {
                   Step 2: Obtain API Key
                 </span>
                 <p className="font-body text-body-md text-on-surface-variant">
-                  Create a developer token from your provider dashboard (e.g., Foxcite account settings).
+                  Create a developer token from your provider dashboard (e.g.,
+                  Foxcite account settings).
                 </p>
               </div>
 
@@ -94,10 +155,11 @@ export default function ConnectPage() {
                   Step 3: Export the Token
                 </span>
                 <p className="font-body text-body-md text-on-surface-variant">
-                  Save the key as an environment variable in your terminal session or <code>.env</code> file:
+                  Save the key as an environment variable in your terminal
+                  session or <code>.env</code> file:
                 </p>
                 <pre className="code-block font-mono text-[13px] p-3 overflow-x-auto select-all bg-surface border border-outline-variant">
-                  export SEOMD_API_KEY="your_provider_api_key"
+                  {`export SEOMD_API_KEY="your_provider_api_key"`}
                 </pre>
               </div>
 
@@ -107,7 +169,8 @@ export default function ConnectPage() {
                   Step 4: Run Synchronizations
                 </span>
                 <p className="font-body text-body-md text-on-surface-variant">
-                  Run analyze or sync to validate, compute citations, and sync engine metadata:
+                  Run analyze or sync to validate, compute citations, and sync
+                  engine metadata:
                 </p>
                 <pre className="code-block font-mono text-[13px] p-3 overflow-x-auto select-all bg-surface border border-outline-variant">
                   seomd sync
