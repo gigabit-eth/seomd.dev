@@ -66,7 +66,7 @@ export default function SpecFooter({
             © {new Date().getFullYear()} SEO.md - MIT License
           </p>
           <p className="font-mono text-[10px] text-secondary/60">
-            SEO.md is stewarded by <a href="https://foxcite.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary underline">Foxcite</a>.
+            SEO.md was initiated by <a href="https://foxcite.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary underline">Foxcite</a>.
           </p>
         </div>
         <div className="flex gap-6">
