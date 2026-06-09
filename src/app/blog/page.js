@@ -8,6 +8,9 @@ export const metadata = {
   title: 'Blog',
   description:
     'Writing on AI Engine Optimization, the SEO.md standard, AEO strategy, citation tracking, and the future of AI search.',
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default function BlogPage() {

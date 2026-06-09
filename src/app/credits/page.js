@@ -6,6 +6,9 @@ import Logo from '@/components/Logo';
 export const metadata = {
   title: 'Credits',
   description: 'Credits and attributions for assets used in the SEO.md open standard platform.',
+  alternates: {
+    canonical: '/credits',
+  },
 };
 
 export default function CreditsPage() {

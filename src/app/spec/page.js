@@ -10,6 +10,9 @@ export const metadata = {
   title: 'SEO.md Specification',
   description:
     'The official SEO.md open standard specification — the protocol for AI Engine Optimization. Defines the file format, sections, field ownership model, and AEO rules.',
+  alternates: {
+    canonical: '/spec',
+  },
 };
 
 // Spec sections for the sidebar sub-navigation

@@ -6,6 +6,9 @@ export const metadata = {
   title: "Connect Platform",
   description:
     "Connect your SEO.md specification file to automated writeback providers and get API keys.",
+  alternates: {
+    canonical: '/connect',
+  },
 };
 
 export default function ConnectPage() {
@@ -71,18 +74,6 @@ export default function ConnectPage() {
                   className="h-10 w-auto"
                 />
               </a>
-              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
-                v0
-              </div>
-              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
-                Lovable
-              </div>
-              <div className="font-mono text-[11px] uppercase tracking-wider text-secondary flex items-center gap-2 border border-outline-variant px-3 py-1.5 bg-surface-container">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/60"></span>{" "}
-                Replit
-              </div>
             </div>
           </div>
 

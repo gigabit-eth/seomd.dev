@@ -5,6 +5,9 @@ import SpecFooter from '@/components/SpecFooter';
 export const metadata = {
   title: 'Compatible Platforms & Providers',
   description: 'Compatible platform providers and automated writeback integrations for the SEO.md open standard.',
+  alternates: {
+    canonical: '/providers',
+  },
 };
 
 export default function ProvidersPage() {
