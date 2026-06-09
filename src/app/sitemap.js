@@ -20,10 +20,22 @@ export default function sitemap() {
       priority: 1.0,
     },
     {
+      url: `${BASE_URL}/connect`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       url: `${BASE_URL}/spec`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/providers`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/blog`,

@@ -60,7 +60,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@foxcite',
+    // TODO: repurpose old twitter account
+    // site: '@seomddev',
+    // creator: '@nobluelinks',
     title: 'SEO.md — The Open Standard for AI Search Optimization',
     description:
       'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
