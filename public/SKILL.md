@@ -1,6 +1,6 @@
 # SEO.md CLI Skill
 
-**What this does:** Scaffolds `SEO.md`, `SEO.REVERSE.md`, and `.seomd/` intelligence directory into any project via the official CLI.
+**What this does:** Scaffolds `SEO.md`, `SEO.REVERSE.md`, and `.seo/` intelligence directory into any project via the official CLI.
 
 ## Usage
 

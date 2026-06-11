@@ -34,54 +34,12 @@ export default function ConnectPage() {
 
         {/* Connection Methods */}
         <div className="py-12 space-y-12">
-          {/* Method 1: Platform Deployments */}
+
+          {/* Method 1: Foxcite */}
           <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
                 METHOD 01
-              </span>
-            </div>
-            <h2 className="font-display text-headline-sm uppercase tracking-wide">
-              Agent-Native Platform Deployments
-            </h2>
-            <p className="font-body text-on-surface-variant leading-relaxed max-w-2xl">
-              Deploy a Nextjs starter template that already includes{" "}
-              <code>SEO.md</code>
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a
-                href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fseomd%2Fstarter-next"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center"
-              >
-                <img
-                  src="https://vercel.com/button"
-                  alt="Deploy with Vercel"
-                  className="h-10 w-auto"
-                />
-              </a>
-              <a
-                href="https://app.netlify.com/start/deploy?repository=https://github.com/seomd/starter-next&fullConfiguration=true"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center"
-              >
-                <img
-                  src="https://www.netlify.com/img/deploy/button.svg"
-                  alt="Deploy to Netlify"
-                  className="h-10 w-auto"
-                />
-              </a>
-            </div>
-          </div>
-
-          {/* Method 2: Foxcite */}
-          <div className="space-y-6">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
-                METHOD 02
               </span>
               <span className="status-pill active">RECOMMENDED</span>
             </div>
@@ -105,10 +63,10 @@ export default function ConnectPage() {
             </div>
           </div>
 
-          {/* Method 3: Manual CLI Setup */}
+          {/* Method 2: Manual CLI Setup */}
           <div className="space-y-6">
             <h2 className="font-display text-headline-sm uppercase tracking-wide">
-              Method 03: CLI Key Authentication
+              Method 02: CLI Key Authentication
             </h2>
             <p className="font-body text-on-surface-variant leading-relaxed">
               If you are using the CLI to run checks, analyze, or sync local
