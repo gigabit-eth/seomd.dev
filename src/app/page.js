@@ -239,6 +239,44 @@ aeo:
         </div>
       </section>
 
+      {/* ── THE VALUE ── */}
+      <section className="px-6 md:px-16 py-16 border-b border-outline-variant">
+        <div className="max-w-5xl mx-auto">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary mb-3">
+            THE VALUE
+          </p>
+          <h2 className="font-display text-headline-lg uppercase leading-headline mb-10">
+            OBJECTIVE BENEFITS
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t-2 border-l-2 border-primary">
+            {[
+              {
+                title: 'ELIMINATE INFERENCE',
+                desc: 'Traditional SEO relies on crawlers guessing what your site is about from HTML tags. SEO.md provides a deterministic, explicit manifesto directly to LLMs.',
+              },
+              {
+                title: 'AI-NATIVE FORMAT',
+                desc: 'Websites are full of complex DOM trees and hydration scripts. Markdown is the native language of LLMs, giving agents exactly what they need, how they want it.',
+              },
+              {
+                title: 'BRIDGE TEAMS',
+                desc: 'Move SEO out of abstract spreadsheets and into version control. When developers build a new page, marketing intent is already documented in the repository.',
+              },
+            ].map((value, i) => (
+              <div key={i} className="p-8 border-r-2 border-b-2 border-primary bg-surface hover:bg-surface-container transition-colors">
+                <h3 className="font-mono text-label-mono font-semibold uppercase tracking-wider mb-3">
+                  {value.title}
+                </h3>
+                <p className="font-body text-body-md text-on-surface-variant leading-body">
+                  {value.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── ECOSYSTEM ── */}
       <section className="px-6 md:px-16 py-16 border-b border-outline-variant">
         <div className="max-w-5xl mx-auto">
