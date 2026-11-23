@@ -1,0 +1,129 @@
+---
+title: "Claude Code vs Codex: 12 Pricing Pages, With and Without Product Facts"
+seoTitle: "Claude Code vs Codex: 12 Pricing Pages Tested"
+date: "2026-11-23"
+author: "SEO.md Team"
+summary: "We had Claude Code and Codex build the same pricing page 12 times. Without product facts, one invented prices and the other wrote “TBD”. With them, both were right."
+tags: ["coding agents", "experiment", "claude code", "codex"]
+---
+
+**Without your product facts, neither Claude Code nor Codex produced a pricing page you could ship.** Codex invented plans, prices and an "Unlimited" tier every time; Claude Code wrote "TBD". Given the facts, both built correct pages, whether the facts came in the prompt or from SEO.md. What caught the bad pages was checking them against the facts.
+
+```bash
+npx seomd-cli check http://localhost:3000/pricing   # fails on an invented price (seomd-cli 2.2+)
+```
+
+## The setup
+
+We gave both agents the same Next.js app for a made-up product, Acme Meter: a usage-based billing API on a reserved `.example` domain, so no agent could know anything real about it. Every copy had the same README, which explains what the product does but says nothing about pricing, like most READMEs. Every copy also had the same `AGENTS.md`, plus a `CLAUDE.md` that imports it.
+
+The task was the same every time:
+
+```text
+Build the marketing pricing page for Acme Meter at /pricing (app/pricing/page.tsx).
+Use the existing layout and styles. Run the build when you are done.
+```
+
+We ran it under three conditions, twice per agent:
+
+- **A, no facts:** the prompt alone.
+- **B, facts in the prompt:** the same prompt, with the product facts and page rules pasted below it.
+- **C, SEO.md:** the short prompt, with the same facts and rules in an `SEO.md` that `npx seomd-cli init` wired into `AGENTS.md`.
+
+The facts: Starter $0/month for up to 10,000 events; Growth $99/month for up to 1,000,000 events, then $0.08 per 1,000; Enterprise custom. No free trial. The rules asked for an answer-first intro, an FAQ with `FAQPage` JSON-LD, and `Offer` data. The Do Not Claim list ruled out SOC 2, "real-time", other integrations and "unlimited".
+
+**Agents:** Claude Code 2.1.330 on its default model, Opus 5.5. Codex CLI 0.171.0 on its default model, gpt-6-luna, with medium reasoning, signed in with ChatGPT. Neither had MCP servers or custom commands. Each finished page was built and served, then checked with `seomd check` and a fact check against the price list, and we read every flagged line ourselves.
+
+## Results
+
+| | Claude Code | Codex |
+|---|---|---|
+| **A, no facts** | Prices and limits left as "TBD". No JSON-LD, no FAQ; one run had no canonical tag. | Invented a full price list, different each run: "$49 Growth" with "$0.20 per additional 1,000 events" in one, "$49 Launch" and "$199 Scale" in the other. Both added "Unlimited" plan features. No JSON-LD, no canonical tag. |
+| **B, facts in prompt** | Correct prices, FAQ and JSON-LD. Nothing for `seomd check` to report. | Correct prices, FAQ and JSON-LD. Nothing for `seomd check` to report. |
+| **C, SEO.md** | Correct prices, FAQ and JSON-LD. Nothing for `seomd check` to report. | Correct prices, FAQ and JSON-LD. Nothing for `seomd check` to report. |
+
+Three things stood out.
+
+**Without facts, both agents failed, in opposite ways.** Codex wrote convincing pricing pages for a product it knew nothing about. If you skimmed the diff, "$49 per month" looks like a decision someone made. Claude Code refused to guess and left "TBD" in the cells, which is more honest but still can't ship. Neither approach is a page you could publish, and only one of them is obviously unfinished.
+
+**SEO.md made no difference compared with a good prompt.** B and C produced equally correct pages for both agents. Codex took longer with SEO.md, about 140 to 180 seconds against roughly 100, because it read the file first. The quality came from having the facts, not from where they were stored.
+
+**Claude Code showed its working.** Both of its B runs and both C runs included a worked example, "1,500,000 events costs $99 + (500 × $0.08) = $139", and the arithmetic was right. Codex gave no worked examples.
+
+We also ran Codex on gpt-5 with an older CLI before switching to the current default. It made the same kind of things up without facts (a "$49" plan, a "14-day trial", "Unlimited"). With facts, it got the prices right but wrote meta descriptions of 166 to 229 characters, and in one SEO.md run it put the JSON-LD in `next/script`, which injects it with JavaScript. Crawlers that don't run JavaScript, which is most AI crawlers, never see it. The current model made none of those mistakes.
+
+## So why SEO.md, and not just a prompt or AGENTS.md?
+
+Not because the file writes better pages. This experiment shows it doesn't, compared with pasting the same facts into the prompt. And for the agent alone, a "Product facts" section in `AGENTS.md` would work about as well.
+
+The argument for a dedicated file is the same as for any shared config:
+
+- **You write the facts once.** Every page, every task, every teammate and every agent gets the same prices and the same Do Not Claim list. Facts pasted into prompts drift.
+- **Changes get reviewed.** When pricing changes, one diff in one file changes it everywhere, and someone reviews it.
+- **Tools can check it.** That last point is the one that matters most.
+
+## Check what shipped, not what you asked for
+
+Every page in this experiment built without errors, including the ones with invented prices. The only thing that reliably separated the good pages from the bad ones was checking the rendered page against the facts. So we added that to `seomd check`.
+
+List the facts your pages may state in the `claims` block of `SEO.md`:
+
+```yaml
+claims:
+  prices: ["$0", "$99", "$0.08"]   # the only prices a page may show
+  forbidden:                        # phrases no page may assert
+    - SOC 2 certified
+    - real-time
+    - unlimited
+    - free trial
+```
+
+`seomd check` then fails any page that shows another price, in the text or in JSON-LD offers, or that asserts a forbidden phrase, and quotes the sentence:
+
+```text
+✗ $49 on the page isn't in claims.prices ($0, $99, $0.08): "$49 per month"
+✗ $199 on the page isn't in claims.prices ($0, $99, $0.08): "$199 per month"
+✗ Forbidden claim "unlimited" (claims.forbidden): "Start building Unlimited meters and price plans"
+```
+
+A forbidden phrase is fine in a question or after a negation, because that's how a correct page says it: "Is there a free trial? There is no free trial." A price calculated from listed ones, like the $139 example, is a warning to check the math rather than an error. Placeholder copy such as "TBD", "TODO" and "lorem ipsum" fails on every page.
+
+Run against all 18 pages from this experiment, including the gpt-5 runs, the checker failed every page built without facts (6 of 6) and passed every page built with them (12 of 12). On 20 live pages from two production sites it reported nothing.
+
+Add it to CI and invented prices stop at the pull request:
+
+```bash
+npx seomd-cli@latest check ./out --strict
+```
+
+## Limits
+
+This is one task, one made-up product, and two runs per agent per condition. It doesn't tell you which agent is better in general, and the results will move as models change. What it shows is narrower and, we think, durable: an agent can only state facts it has, and nothing in a normal build tells you when it made one up.
+
+Disclosure: SEO.md and Foxcite, a commercial AI search visibility tool, are built by the same people.
+
+## FAQ
+
+### Do coding agents make up pricing?
+
+Sometimes. In our runs, Codex invented complete price lists for a product it knew nothing about, every time it wasn't given the real prices. Claude Code left the prices as "TBD" instead. With the facts provided, both stated them correctly.
+
+### Is SEO.md better than putting the facts in the prompt?
+
+Not for a single task. In our runs, pasting the facts into the prompt and putting them in SEO.md produced equally correct pages. SEO.md's advantage is that you write the facts once, review changes in one place, and let `seomd check` verify every page against them.
+
+### Why not put the facts in AGENTS.md?
+
+For the agent alone, that works about as well, since agents read AGENTS.md automatically. A separate SEO.md gives tools a fixed structure to check against: listed prices, forbidden phrases, pages and crawl rules. `seomd init` wires a pointer to it into AGENTS.md so agents still find it.
+
+### How do I stop invented prices from reaching production?
+
+List every price your pages may show in `claims.prices` in SEO.md, then run `npx seomd-cli check` on your built site or preview URL in CI. Any other price, in the page text or JSON-LD, fails the check with the sentence quoted.
+
+### Which is better, Claude Code or Codex?
+
+This experiment can't tell you. With product facts, both built correct pages. Without them, Codex invented prices and Claude Code left placeholders, and neither page could ship. Two runs on one task is far too little for a general verdict.
+
+---
+
+`npx seomd-cli init` · [Read the spec →](/spec)
