@@ -6,7 +6,9 @@ summary: "The open standard for AI Engine Optimization - what it is, why it matt
 tags: ["announcement", "aeo", "open-standard"]
 ---
 
-SEO.md is a plain-text file that lives in your repository root. It tells AI search engines - ChatGPT, Claude, Perplexity, Gemini - exactly how to understand and cite your brand.
+> **Correction (November 23, 2026):** This post describes SEO.md v1.0. It originally said SEO.md tells AI search engines how to understand and cite your brand. That was wrong: ChatGPT, Claude, Perplexity and Gemini don't read files in your repository. They read what your site serves. SEO.md is for your team and the coding agents that build those pages, and the CLI generates `robots.txt` and `llms.txt` from it. The format has also changed: v2.0.0 uses Markdown with YAML frontmatter, and provider data now lives in `.seo/` instead of `_analysis` blocks. See [SEO.md v2.0.0](/blog/seomd-v2-markdown-and-provider-protocol) for the current version.
+
+SEO.md is a plain-text file that lives in your repository root. It holds your search strategy - brand facts, keywords, the questions buyers ask AI engines - so the people and coding agents building your site work from the same source of truth.
 
 It is an open standard, like `CLAUDE.md` or `AGENTS.md`, but purpose-built for AI Engine Optimization (AEO).
 
@@ -87,7 +89,7 @@ SEO.md is an open standard, MIT licensed, and governed by its contributors. The 
 
 We built this because the `CLAUDE.md` standard showed us what's possible when context becomes a first-class citizen of a project. AI agents are dramatically more effective when you give them explicit instructions instead of hoping they infer the right behavior.
 
-The same principle applies to AI search engines. **Give them the spec. Stop hoping for inference.**
+The same principle applies to the agents that build your site. **Give them the spec. Stop hoping for inference.**
 
 ---
 

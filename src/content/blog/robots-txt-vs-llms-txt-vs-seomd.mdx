@@ -1,0 +1,156 @@
+---
+title: "robots.txt vs llms.txt vs SEO.md: What AI Engines Actually Read"
+seoTitle: "robots.txt vs llms.txt vs SEO.md: What AI Engines Read"
+date: "2026-11-23"
+author: "SEO.md Team"
+summary: "robots.txt decides which AI crawlers can fetch your pages. llms.txt is an optional index for AI agents. SEO.md lives in your repo. Here's what each one does."
+tags: ["robots.txt", "llms.txt", "ai crawlers"]
+---
+
+**robots.txt controls which crawlers may fetch your pages, and it's the only one of the three that AI search engines document honoring.** llms.txt is an optional Markdown index for AI agents; no major AI search engine says it uses the file to pick sources. SEO.md lives in your repository, for your team and coding agents, and generates the other two.
+
+## Three files, three layers
+
+| | robots.txt | llms.txt | SEO.md |
+|---|---|---|---|
+| Lives at | `yoursite.com/robots.txt` | `yoursite.com/llms.txt` | Repository root (not served) |
+| Read by | Every major crawler, AI ones included | AI agents and developer tools that choose to fetch it | Your team and coding agents |
+| Controls | Which bots may fetch which paths | Nothing; it's a curated reading list | What gets built: facts, page rules, claims to avoid |
+| Status | IETF standard (RFC 9309) | Community proposal from 2024 | Open spec, v2.0.0 |
+| Affects AI citations | Yes. Blocking a search crawler removes you from that engine's answers | Not documented by any major AI search engine | Indirectly, through the pages it shapes |
+
+The mistake we see most is treating them as alternatives. They aren't. robots.txt is access control, llms.txt is a table of contents, and SEO.md is the source both are generated from.
+
+## robots.txt: access control, now with three kinds of AI bot
+
+Every major AI company now runs separate user agents for separate jobs, and they behave differently:
+
+- **Training crawlers** collect content to train models. Blocking one keeps your future content out of training data. It doesn't remove you from that company's search answers.
+- **Search crawlers** build the index that AI search answers cite. Blocking one removes you from those answers.
+- **User-request fetchers** load a page when someone asks the assistant about it. OpenAI and Perplexity say robots.txt may not apply to these, because a person started the request.
+
+| Company | Training | Search | User request |
+|---|---|---|---|
+| OpenAI | `GPTBot` | `OAI-SearchBot` | `ChatGPT-User` |
+| Anthropic | `ClaudeBot` | `Claude-SearchBot` | `Claude-User` |
+| Perplexity | — | `PerplexityBot` | `Perplexity-User` |
+| Google | `Google-Extended` (a control token, not a separate crawler) | `Googlebot` | — |
+| Apple | `Applebot-Extended` (control token) | `Applebot` | — |
+
+Sources: [OpenAI](https://developers.openai.com/api/docs/bots), [Anthropic](https://support.claude.com/en/articles/8896518), [Perplexity](https://docs.perplexity.ai/guides/perplexitybot), [Google](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers). These pages change often, so check them before you ship a block.
+
+Three things catch people out:
+
+**Blocking `GPTBot` doesn't keep you out of ChatGPT search.** ChatGPT search uses `OAI-SearchBot`, and OpenAI treats the two settings independently. If you want out of training but still want to be cited, block the first and allow the second.
+
+**Blocking `Google-Extended` doesn't remove you from AI Overviews.** `Google-Extended` governs Gemini training and grounding. AI Overviews are built from Google Search's own index, so the controls there are the usual Search ones, like `nosnippet` and `noindex`.
+
+**A bot with its own group ignores the `*` group.** Under the robots.txt standard, a crawler follows only the most specific group that names it. If you write `User-agent: GPTBot` / `Allow: /` to welcome AI crawlers, your site-wide `Disallow: /admin` no longer applies to GPTBot. We found this on both seomd.dev and foxcite.com this week, and in the robots.txt that `seomd-cli` generated. All three are fixed.
+
+```text
+# Wrong: GPTBot can now fetch /admin
+User-agent: *
+Disallow: /admin
+
+User-agent: GPTBot
+Allow: /
+
+# Right: repeat the disallows in every group
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+```
+
+## llms.txt: a reading list for AI agents
+
+[llms.txt](https://llmstxt.org/) was proposed by Jeremy Howard of Answer.AI in September 2024. It's a Markdown file served at `/llms.txt`: an H1 with your project name, a one-paragraph summary in a blockquote, then H2 sections of links with a short note on each. The idea is that an agent with a limited context window can find your important pages without crawling HTML full of navigation and scripts.
+
+Here is the start of seomd.dev's own file:
+
+```markdown
+# SEO.md
+
+> SEO.md is an open, MIT-licensed standard for a repository file that holds a site's search and AI-citation strategy, with a CLI (seomd-cli) that validates it, audits pages and generates robots.txt and llms.txt.
+
+## Docs
+
+- [Specification (v2.0.0)](https://seomd.dev/spec): the SEO.md format: YAML frontmatter, Markdown body, the .seo/ workspace and coding-agent wiring.
+- [Providers & provider protocol](https://seomd.dev/providers): the two HTTP endpoints any SEO or AEO platform can implement.
+```
+
+What it isn't, at least today, is a ranking or citation signal. None of OpenAI, Anthropic, Google or Perplexity has documented using llms.txt to choose which sources to cite, and Google has said its Search features don't use it. Where it does help is with agents and developer tools that fetch it on purpose, such as a coding assistant reading your docs.
+
+It costs little to publish, so we'd add one. Don't treat it as a fix for pages AI crawlers can't read. If your content only appears after JavaScript runs, most AI crawlers never see it, and a link in llms.txt won't change that. We found exactly this on seomd.dev: its JSON-LD was injected by a script, so the server HTML had none.
+
+## SEO.md: the source the other two come from
+
+SEO.md never leaves your repository, and no AI engine reads it. It holds the decisions behind your public files: which crawlers to allow, whether to allow AI training, what your product does and costs, which pages exist, and which claims are off limits. Coding agents read it before editing pages, and `seomd-cli` generates robots.txt and llms.txt from it, so the files on your site match what your team agreed.
+
+Training and search crawlers are now separate settings:
+
+```yaml
+crawl:
+  sitemap: /sitemap.xml
+  llms_txt: /llms.txt
+  allow_ai_bots: true   # AI search crawlers may fetch the site
+  ai_training: block    # but training crawlers may not
+  disallow:
+    - /admin
+    - /api/*
+```
+
+```bash
+npx seomd-cli generate robots --out public/robots.txt
+npx seomd-cli generate llms --out public/llms.txt --strict
+```
+
+The generated robots.txt allows each search and user-request crawler, repeating your disallows in every group, and disallows each training crawler:
+
+```text
+# AI search crawlers and user-request fetchers
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/*
+
+# AI training crawlers (crawl.ai_training: block). Search visibility is unaffected.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+```
+
+Then `seomd check` audits what you actually serve. It reports an error if a search crawler is blocked, and a warning if `ai_training: block` is set but a training crawler isn't covered:
+
+```bash
+npx seomd-cli check https://yoursite.com
+```
+
+`ai_training` and the per-group disallows need seomd-cli 2.1.0 or later. For a large site, serve llms.txt from a route that lists your pages and posts at build time, the way seomd.dev does. The generated file is a starting point.
+
+## FAQ
+
+### Is llms.txt the same as robots.txt for AI?
+
+No. robots.txt tells crawlers which paths they may fetch, and AI companies document honoring it. llms.txt doesn't allow or block anything; it's an optional Markdown list of your important pages for AI agents that choose to read it.
+
+### Does blocking GPTBot remove my site from ChatGPT?
+
+Not from ChatGPT search. GPTBot is OpenAI's training crawler; ChatGPT search uses OAI-SearchBot, which you control separately. Block GPTBot to opt out of training and allow OAI-SearchBot to stay citable.
+
+### Do AI search engines read llms.txt?
+
+None of the major AI search providers has documented using llms.txt to choose sources, and Google has said its Search features don't use it. Some agents and developer tools fetch it, so it's still worth publishing, but it isn't a citation signal.
+
+### Do AI engines read SEO.md?
+
+No. SEO.md stays in your repository. Your team and coding agents use it to build pages, and seomd-cli generates robots.txt and llms.txt from it. AI engines see the results, not the file.
+
+### Can I block AI training but still appear in AI answers?
+
+Yes. Disallow the training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot) and allow the search crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot). In SEO.md, set `ai_training: block` and generate robots.txt from it.
+
+---
+
+`npx seomd-cli generate robots --out public/robots.txt` · [Read the spec →](/spec)
