@@ -119,9 +119,9 @@ function SidebarContent({ pathname }) {
 
       {/* Bottom version info */}
       <div className="px-6 mt-6 pt-6 border-t border-outline-variant">
-        <span className="version-badge text-[10px]">V1.0-ALPHA</span>
+        <span className="version-badge text-[10px]">V2.0.0</span>
         <p className="font-mono text-[10px] text-secondary mt-2">
-          npx seomd@latest init
+          npx seomd-cli@latest init
         </p>
       </div>
     </div>

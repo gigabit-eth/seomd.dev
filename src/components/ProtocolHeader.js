@@ -1,12 +1,12 @@
 import VersionBadge from './VersionBadge';
 
 /**
- * Protocol Header Bar — matches the top-of-page header in the mockups:
- * [PROTOCOL NAME] [PROTOCOL NAME] [PROTOCOL NAME]  |  REVISION [V1.0-ALPHA]  |  REFERENCE [SEO.md]
+ * Protocol Header Bar:
+ * [PROTOCOL NAME]  |  REVISION [V2.0.0]  |  REFERENCE [seomd.dev]
  */
 export default function ProtocolHeader({
   protocolName = 'SEO.MD',
-  revision = 'V1.0-ALPHA',
+  revision = 'V2.0.0',
   reference = 'seomd.dev',
   referenceHref = 'https://seomd.dev',
 }) {

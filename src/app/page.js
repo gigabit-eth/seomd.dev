@@ -9,21 +9,38 @@ const SIMILAR_STANDARDS = [
   { name: 'CLAUDE.md', desc: 'Anthropic AI instructions' },
   { name: 'AGENTS.md', desc: 'Autonomous agent contracts' },
   { name: 'DESIGN.md', desc: 'UI design system spec' },
-  { name: 'SEO.md', desc: 'AI search optimization', active: true },
+  { name: 'SEO.md', desc: 'AI search & citation spec', active: true },
 ];
 
 const FEATURES = [
   {
     index: '01',
     title: 'FOUNDER DECLARES',
-    desc: 'You own your SEO strategy. Define your brand, keywords, intent queries, and target AI engines — in plain text, version controlled.',
+    desc: (
+      <>
+        Define your canonical product facts, buyer prompts, routes, and AEO rules in{' '}
+        <code>SEO.md</code> (YAML frontmatter + Markdown). Automatically wired into{' '}
+        <code>AGENTS.md</code> and <code>CLAUDE.md</code> on init.
+      </>
+    ),
   },
   {
     index: '02',
-    title: 'PLATFORM WRITES BACK',
+    title: 'AGENTS & CLI VERIFY',
     desc: (
       <>
-        Connect a platform provider like{' '}
+        Coding agents read <code>SEO.md</code> before shipping pages. Run{' '}
+        <code>seomd check</code>, <code>seomd generate</code> (<code>robots.txt</code>,{' '}
+        <code>llms.txt</code>, JSON-LD), and <code>seomd doctor</code> locally with zero API keys.
+      </>
+    ),
+  },
+  {
+    index: '03',
+    title: 'PROVIDERS WRITE BACK',
+    desc: (
+      <>
+        Optionally connect{' '}
         <a
           href="https://foxcite.com"
           target="_blank"
@@ -35,14 +52,13 @@ const FEATURES = [
             <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
           </svg>
         </a>{' '}
-        to populate <code>_analysis</code> blocks with live citation rates, gap scores, and competitor intelligence.
+        or any provider implementing the{' '}
+        <Link href="/providers" className="text-primary hover:underline font-semibold">
+          Provider Protocol
+        </Link>{' '}
+        to write live citation metrics and playbooks into <code>.seo/</code>.
       </>
     ),
-  },
-  {
-    index: '03',
-    title: 'AI ENGINES READ IT',
-    desc: 'SEO.md tells crawlers, AI bots, and search engines exactly how to understand, cite, and rank your brand. No guesswork.',
   },
 ];
 
@@ -58,9 +74,9 @@ export default function HomePage() {
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary">
               OPEN STANDARD
             </span>
-            <span className="version-badge">V1.0-ALPHA</span>
+            <span className="version-badge">V2.0.0</span>
             <span className="font-mono text-[11px] text-secondary">
-              spec v1.0 · seomd.dev
+              spec v2.0.0 · seomd.dev
             </span>
           </div>
 
@@ -72,19 +88,22 @@ export default function HomePage() {
 
           <div className="max-w-2xl">
             <p className="font-accent text-[22px] leading-relaxed mb-4 text-on-surface">
-              The open standard for <em>AI Engine Optimization</em> — a version-controlled,
-              plain-text spec file that tells ChatGPT, Claude, Perplexity, and Gemini
-              exactly how to understand and cite your brand.
+              The open standard for <em>AI Engine Optimization</em> — a Markdown-first,
+              version-controlled spec file that tells coding agents and AI search engines
+              exactly how to build, structure, and cite your brand.
             </p>
             <p className="font-body text-body-md text-secondary mb-8">
-              Like <code>CLAUDE.md</code> or <code>AGENTS.md</code>, but for SEO.
-              Drop one file in your repo. Let AI engines do the rest.
+              Like <code>CLAUDE.md</code>, <code>AGENTS.md</code>, and <code>DESIGN.md</code>,
+              but for search and AI citations. Useful offline on day one — vendor-agnostic by design.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4">
             <Link href="/spec" className="btn-primary" id="cta-read-spec">
               READ THE SPEC →
+            </Link>
+            <Link href="/providers" className="btn-secondary" id="cta-providers">
+              PROVIDER PROTOCOL →
             </Link>
             <a
               href="https://github.com/seomd/cli"
@@ -111,24 +130,26 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="code-block">
-              <pre>{`# Install the CLI
-npm install -g seomd-cli
+              <pre>{`# Scaffold SEO.md (auto-detects routes + wires AGENTS.md)
+npx seomd-cli init
 
-# Scaffold your SEO.md
-seomd init
+# Validate & audit locally (zero API key required)
+npx seomd-cli validate --strict
+npx seomd-cli check ./out
+npx seomd-cli generate robots --out public/robots.txt
+npx seomd-cli generate llms --out public/llms.txt
+npx seomd-cli doctor
 
-# Check your citation status
-seomd status
-
-# Validate against the spec
-seomd validate`}</pre>
+# Optional: run live AI citation analysis via any provider
+npx seomd-cli analyze`}</pre>
             </div>
 
             <div>
               <p className="font-body text-body-md text-on-surface-variant leading-body mb-5">
-                The <code>init</code> command asks you five questions — your brand name,
-                domain, site type, primary keyword, and top competitors — and generates a
-                complete <code>SEO.md</code> tailored to your site type.
+                <code>init</code> inspects your repository (Next.js, Astro, SvelteKit, Remix, Vite)
+                to discover live routes, scaffolds a v2 <code>SEO.md</code> (YAML frontmatter +
+                Markdown rules), and wires a pointer into <code>AGENTS.md</code> / <code>CLAUDE.md</code>{' '}
+                so coding agents pick it up automatically.
               </p>
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-widest text-secondary mb-3">
@@ -178,22 +199,22 @@ seomd validate`}</pre>
             THE FORMAT
           </p>
           <h2 className="font-display text-headline-lg uppercase leading-headline mb-8">
-            PLAIN TEXT. VERSION CONTROLLED.
+            MARKDOWN FIRST. FRONTMATTER STRUCTURED.
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
               <p className="font-body text-body-lg leading-body mb-6 text-on-surface">
-                An <strong>SEO.md</strong> file lives in your repo root. It has two parts:
-                a YAML block you control, and <code>_analysis</code> blocks your platform
-                writes back.
+                <strong>SEO.md</strong> (v2.0.0) pairs a compact YAML frontmatter manifest with
+                real Markdown prose for coding agents. Provider-generated metrics and playbooks
+                live cleanly inside <code>.seo/</code> — never polluting your hand-authored file.
               </p>
               <ul className="space-y-3">
                 {[
-                  'No proprietary dashboards — just a file in your repo',
-                  'Works with any site: SaaS, blog, eCommerce, local',
-                  'Human-readable. AI-readable. Git-diffable.',
-                  'Platform-agnostic — connect any provider',
+                  'Real Markdown prose, tables, and rules — never breaks YAML parsers',
+                  'Auto-wired into AGENTS.md / CLAUDE.md so coding agents read it first',
+                  'Offline CLI checks, robots.txt, llms.txt, and JSON-LD generation',
+                  'Vendor-agnostic Provider Protocol — Foxcite, SEMrush, Ahrefs, Profound, Peec AI, or custom',
                 ].map((item) => (
                   <li key={item} className="flex gap-3 font-body text-body-md text-on-surface-variant">
                     <span className="font-mono text-secondary shrink-0">—</span>
@@ -204,36 +225,37 @@ seomd validate`}</pre>
             </div>
 
             <div className="code-block">
-              <pre>{`# SEO.md
-              
-## My Brand
-
-## Site
+              <pre>{`---
+spec: "2.0.0"
 site:
-  type: saas
-  domain: mybrand.com
-  canonical: https://mybrand.com
-
-## Keywords
+  brand: "Acme"
+  domain: "acme.com"
+  canonical: "https://acme.com"
+  type: "saas"
 keywords:
-  primary: "ai citation tracking"
-  secondary:
-    - "llm seo"
-    - "aeo tools"
+  primary: "billing automation"
+  negative: ["free download"]
+pages:
+  - id: homepage
+    url: /
+    status: live
+    priority: 1
+crawl:
+  robots: /robots.txt
+  llms_txt: /llms.txt
+  allow_ai_bots: true
+provider:
+  name: null # foxcite | custom | semrush | ahrefs | profound | peec
+---
 
-## AEO
-aeo:
-  answer_first_format: true
-  allowed_bots:
-    - GPTBot
-    - ClaudeBot
-    - PerplexityBot
+# SEO.md — Acme
 
-  ### PLATFORM WRITES BACK
-  _analysis:
-    overall_citation_rate: 0.72
-    overall_gap_score: 28
-    last_analyzed: 2026-06-05`}</pre>
+## Canonical Product Facts
+- **One-liner:** Usage-based billing for B2B SaaS.
+
+## Page & AEO Rules (For Coding Agents)
+- Open every key page with a 40-60 word direct answer.
+- Emit Organization + FAQPage JSON-LD.`}</pre>
             </div>
           </div>
         </div>
@@ -252,16 +274,16 @@ aeo:
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t-2 border-l-2 border-primary">
             {[
               {
-                title: 'ELIMINATE INFERENCE',
-                desc: 'Traditional SEO relies on crawlers guessing what your site is about from HTML tags. SEO.md provides a deterministic, explicit manifesto directly to LLMs.',
+                title: 'GROUND TRUTH FOR AGENTS',
+                desc: 'Stop coding agents from inventing vague H1s, hallucinating claims, or forgetting JSON-LD. SEO.md gives every agent the exact facts and page rules.',
               },
               {
-                title: 'AI-NATIVE FORMAT',
-                desc: 'Websites are full of complex DOM trees and hydration scripts. Markdown is the native language of LLMs, giving agents exactly what they need, how they want it.',
+                title: 'LOCAL VERIFICATION LOOP',
+                desc: 'Audit HTML, metadata, JSON-LD, llms.txt, and AI bot access locally in CI or during agent sessions — no paid account required to get value.',
               },
               {
-                title: 'BRIDGE TEAMS',
-                desc: 'Move SEO out of abstract spreadsheets and into version control. When developers build a new page, marketing intent is already documented in the repository.',
+                title: 'OPEN PROVIDER PROTOCOL',
+                desc: 'Keep your strategy vendor-neutral in git. Plug in Foxcite natively or connect any SEO/AEO provider implementing the open HTTP contract.',
               },
             ].map((value, i) => (
               <div key={i} className="p-8 border-r-2 border-b-2 border-primary bg-surface hover:bg-surface-container transition-colors">
@@ -320,8 +342,8 @@ aeo:
             OPEN TO ALL
           </h2>
           <p className="font-body text-body-lg leading-body mb-8 text-on-surface max-w-xl">
-            SEO.md is an open standard. Contributions to the spec, CLI, and ecosystem
-            tooling are welcome via GitHub.
+            SEO.md is an open standard. Contributions to the spec, CLI, provider adapters,
+            and ecosystem tooling are welcome via GitHub.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
