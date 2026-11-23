@@ -1,0 +1,176 @@
+---
+title: "SEO.md v2.0.0: Markdown-First Spec, Agent Wiring & the Open Provider Protocol"
+seoTitle: "SEO.md v2: Markdown Spec & Open Provider Protocol"
+date: "2026-11-23"
+author: "SEO.md Team"
+summary: "SEO.md v2 is Markdown with YAML frontmatter, wires itself into AGENTS.md and CLAUDE.md, works offline, and opens analyze/sync to any provider."
+tags: ["announcement", "spec", "cli"]
+---
+
+**SEO.md v2.0.0 turns the file into Markdown with YAML frontmatter that coding agents read before touching public pages.** `npx seomd-cli init` detects your routes and wires `AGENTS.md` or `CLAUDE.md` for you. Every local command runs without an API key, and live citation scans now go through an open HTTP protocol that any SEO or AEO provider can implement.
+
+```bash
+npx seomd-cli@latest init       # scaffold or upgrade SEO.md, wire your agent files
+npx seomd-cli validate          # check it against spec v2.0.0
+npx seomd-cli check http://localhost:3000
+```
+
+## What v1 got wrong
+
+We shipped v1.0 in June. Three things kept coming up.
+
+**It was YAML pretending to be Markdown.** A v1 `SEO.md` was a raw YAML document with `#` comments standing in for headings. It rendered badly on GitHub, and Markdown formatters broke it. One real repo ended up with `canonical: <https://example.com>` after a formatter turned the URL into an autolink, which then failed validation.
+
+**`init` handed you homework.** The scaffold was mostly `null` values and empty lists. Teams ran it, saw a wall of blanks, and never came back.
+
+**It leaned on one vendor.** Live scans only worked with Foxcite, and setting `SEOMD_API_KEY` quietly meant Foxcite. That made sense for a first release, but an open standard can't depend on one company's API. v2 makes the provider an explicit setting with a published contract; a bare `SEOMD_API_KEY` still means Foxcite, so existing setups keep working.
+
+We also overstated what the file does. ChatGPT, Claude and Perplexity don't read the `SEO.md` in your repo; crawlers read what you serve, like `robots.txt`, `llms.txt`, your pages and their JSON-LD. `SEO.md` is for the people and coding agents who build those things. v2 is designed around that.
+
+## What's new in v2.0.0
+
+| Area | v1.0 | v2.0.0 |
+|---|---|---|
+| Format | Raw YAML with comment headings | YAML frontmatter + Markdown body |
+| Setup | Blank template | Detects framework and live routes; carries over existing values |
+| Coding agents | Nothing | Adds a marker block to `AGENTS.md` / `CLAUDE.md` |
+| Offline tools | `validate` | `validate`, `check`, `generate`, `doctor` |
+| Template text | Could leak into output | Flagged by `validate`; kept out of `generate`; `--strict` fails CI |
+| Live scans | Foxcite-only | Any provider that implements the open protocol |
+
+### Machine-readable frontmatter, human-readable body
+
+The frontmatter holds what tools need: site, keywords, competitors, intent queries, pages, crawl settings and provider. Here is the start of what `init` writes for a Next.js app with three routes:
+
+```yaml
+---
+spec: 2.0.0
+site:
+  brand: Acme
+  domain: acme.dev
+  canonical: https://acme.dev
+  type: saas
+keywords:
+  primary: usage-based billing
+competitors:
+  - domain: stripe.com
+  - domain: chargebee.com
+intent:
+  comparison:
+    priority: high
+    queries:
+      - stripe vs acme
+      - chargebee vs acme
+---
+```
+
+The body is plain Markdown for the parts that need judgment: canonical product facts, the buyer prompts you want to show up for, page rules, and a **Do Not Claim** list. That last section is the one coding agents need most. It's where you write that you don't offer a free tier, that you never quote competitor pricing, or that a feature is still in beta.
+
+```markdown
+## Canonical Product Facts
+- **One-liner:** Acme is usage-based billing for API companies.
+- **Pricing / offer:** Starter $0 up to 10k events; Growth $99/mo. Link to /pricing.
+
+## Do Not Claim
+- Never fabricate competitor pricing, benchmarks, or customer quotes.
+- Don't promise "real-time" invoicing; invoices run hourly.
+```
+
+### Agent wiring
+
+Most coding agents already read a root instruction file. `init` adds one block to whichever of `AGENTS.md` and `CLAUDE.md` you have, and creates `AGENTS.md` if you have neither:
+
+```markdown
+<!-- seomd:start -->
+## SEO & AI Citation Rules (`SEO.md`)
+
+Before creating or editing public-facing pages, landing pages, metadata, JSON-LD schema, or marketing copy:
+1. Read `SEO.md` at the repository root for canonical product facts, target buyer prompts, page rules, and forbidden claims.
+2. Check `.seo/pages/<page-id>.md` and `.seo/REVERSE.md` (if present) for page-specific citation gaps and playbooks.
+3. Run `npx seomd-cli validate` (and `npx seomd-cli check` against built output or localhost) to verify SEO/AEO compliance.
+<!-- seomd:end -->
+```
+
+The markers make it safe to run again: the block is replaced, never duplicated, and nothing else in the file is touched. Use `--no-wire-agents` to skip it.
+
+### A local loop with no API key
+
+Everything except live citation scans runs on your machine:
+
+```bash
+npx seomd-cli check ./out                              # static export
+npx seomd-cli check http://localhost:3000              # running dev server
+npx seomd-cli generate robots --out public/robots.txt
+npx seomd-cli generate llms --out public/llms.txt --strict
+npx seomd-cli doctor
+```
+
+`check` audits rendered HTML against your `SEO.md`: missing `<h1>`, meta descriptions outside 50–160 characters, invalid JSON-LD, and AI crawlers blocked by `robots.txt`. `doctor` reports whether `SEO.md` is valid, which agent files are wired, which crawl files exist (including ones served by routes, like `app/llms.txt/route.ts`), and whether a provider is set up.
+
+`generate` builds `robots.txt`, `llms.txt` and a JSON-LD starter from the file. It never publishes the placeholder text `init` leaves for you to replace. If the one-liner is still a placeholder, `llms.txt` falls back to brand, domain and primary keyword, and the FAQ entry is left out of the JSON-LD. Add `--strict` and it refuses to write anything until the facts are filled in.
+
+## The Open Provider Protocol
+
+`analyze` and `sync` are the only commands that call a service, and v2 defines the contract in [PROVIDER_SPEC.md](https://github.com/seomd/cli/blob/main/PROVIDER_SPEC.md). A provider implements two endpoints:
+
+- `POST /cli/analyze` runs a live multi-engine citation scan for your intent queries and pages. It returns citation rates, gap scores, top cited competitors and optional per-page playbooks.
+- `POST /cli/sync` returns the latest cached analysis in the same shape without starting a new paid scan. The CLI falls back to `GET /cli/sync` for providers that only implement `GET`.
+
+You choose a provider in the frontmatter or with environment variables:
+
+```bash
+SEOMD_PROVIDER=custom
+SEOMD_API_URL=https://api.your-provider.com
+SEOMD_API_KEY=...
+npx seomd-cli analyze
+```
+
+Results land in `.seo/STATUS.yml`, `.seo/REVERSE.md` and `.seo/pages/<id>.md`. They're plain files in git, so changes show up in PR diffs and coding agents can act on them.
+
+**Where providers stand today:** Foxcite implements the protocol natively; it's the reference implementation, built by the same people who maintain SEO.md. SEMrush, Ahrefs, Profound and Peec AI are listed in the CLI so you can name them, but none of them has native support yet. You can point `SEOMD_API_URL` at your own bridge to any of them. If you run an SEO or AEO platform, the spec is two endpoints, and we'd like to list you at [seomd.dev/providers](/providers).
+
+## Upgrading from v1
+
+Run `init` in a repo that has a v1 file:
+
+```bash
+npx seomd-cli@latest init
+```
+
+```text
+✔ Previous SEO.md backed up to SEO.md.bak
+✔ SEO.md upgraded from v1 to spec v2.0.0 (values carried over)
+✔ .seo/REVERSE.md kept (existing provider intelligence)
+```
+
+Brand, domain, site type, primary, secondary and negative keywords, competitors, intent queries with their priorities, pages with their keywords, locale, tagline and provider all carry over. Provider-written `_analysis` blocks are dropped; a scan regenerates them. Your old file is saved as `SEO.md.bak`, and `.seo/REVERSE.md` is never overwritten.
+
+On an existing v2 file, `init -y` changes nothing unless you pass `--force`, and even then it writes the backup first. `validate` still reads v1 files, so you can upgrade when it suits you.
+
+One correction: the first 2.0.0 release could replace an existing `SEO.md` without asking. That's fixed in 2.0.1, so use `@latest` and you'll get the fix.
+
+## FAQ
+
+### Do AI search engines read SEO.md?
+
+No. ChatGPT, Claude, Perplexity and Google read what your site serves: pages, JSON-LD, `robots.txt` and `llms.txt`. `SEO.md` is the source of truth your team and coding agents use to build those things, and the CLI generates `robots.txt` and `llms.txt` from it.
+
+### Do I need an API key or a paid provider?
+
+No. `init`, `validate`, `check`, `generate` and `doctor` all run offline. You only need a provider for `analyze` and `sync`, which run live citation scans across AI engines.
+
+### How is SEO.md different from llms.txt?
+
+`llms.txt` is a public index served from your domain for AI agents browsing your site. `SEO.md` lives in your repository and holds your strategy: keywords, buyer prompts, page rules and claims to avoid. `seomd generate llms` builds the first from the second.
+
+### Will upgrading overwrite my existing SEO.md?
+
+A v1 file is upgraded in place with its values carried over, and the original is saved as `SEO.md.bak`. An existing v2 file is left alone unless you pass `--force`, which also writes a backup first. Provider files in `.seo/` are never overwritten.
+
+### Can I use SEMrush or Ahrefs as the provider?
+
+Not natively yet. The protocol is open, so you can point `SEOMD_API_URL` at a bridge that calls their APIs, and any platform can add native support by implementing the two endpoints in PROVIDER_SPEC.md.
+
+---
+
+[Read the v2.0.0 spec →](/spec) · [Provider protocol →](/providers#protocol) · `npx seomd-cli init`
