@@ -87,6 +87,14 @@ schema:
     - Organization
     - FAQPage
     - WebPage
+# Facts seomd check verifies on rendered pages. No prices: seomd.dev sells nothing, and posts quote
+# example prices from experiments.
+claims:
+  prices: []
+  forbidden:
+    - officially supported by
+    - endorsed by
+    - guaranteed
 crawl:
   sitemap: /sitemap.xml
   robots: /robots.txt
