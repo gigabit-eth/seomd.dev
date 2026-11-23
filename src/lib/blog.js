@@ -21,6 +21,7 @@ export function getAllPosts() {
     return {
       slug,
       title: data.title || slug,
+      seoTitle: data.seoTitle || null,
       date: data.date || null,
       author: data.author || 'SEO.md Team',
       summary: data.summary || '',
@@ -49,6 +50,7 @@ export function getPostBySlug(slug) {
   return {
     slug,
     title: data.title || slug,
+    seoTitle: data.seoTitle || null,
     date: data.date || null,
     author: data.author || 'SEO.md Team',
     summary: data.summary || '',
@@ -76,4 +78,34 @@ export function formatDate(dateStr) {
     month: 'long',
     day: 'numeric',
   });
+}
+
+/**
+ * Pulls question/answer pairs from a post's "## FAQ" section so the page can emit FAQPage JSON-LD
+ * from the same text readers see. Questions are `### ` headings; the answer is the text up to the
+ * next heading. Markdown links, code ticks and emphasis are stripped from the answer.
+ */
+export function getPostFaq(slug) {
+  const filepath = path.join(BLOG_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filepath)) return [];
+
+  const { content } = matter(fs.readFileSync(filepath, 'utf8'));
+  const section = content.split(/^## +(?:FAQ|Frequently Asked Questions)\s*$/im)[1];
+  if (!section) return [];
+
+  const body = section.split(/^## /m)[0];
+  return body
+    .split(/^### +/m)
+    .slice(1)
+    .map((block) => {
+      const [question, ...rest] = block.split('\n');
+      const answer = rest
+        .join(' ')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/[`*_]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      return { question: question.trim(), answer };
+    })
+    .filter((item) => item.question && item.answer);
 }

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import CheckeredDivider from '@/components/CheckeredDivider';
 import SpecFooter from '@/components/SpecFooter';
-import { getPostBySlug, getAllPosts, formatDate } from '@/lib/blog';
+import { getPostBySlug, getPostFaq, getAllPosts, formatDate } from '@/lib/blog';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -14,8 +14,9 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
+  // seoTitle: optional shorter <title> when the headline runs past ~60 characters
   return {
-    title: post.title,
+    title: post.seoTitle || post.title,
     description: post.summary,
     alternates: {
       canonical: `/blog/${slug}`,
@@ -45,8 +46,39 @@ export default async function BlogPostPage({ params }) {
     notFound();
   }
 
+  const url = `https://seomd.dev/blog/${slug}`;
+  const faq = getPostFaq(slug);
+  const graph = [
+    {
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.summary,
+      datePublished: post.date,
+      author: { '@type': 'Organization', name: post.author },
+      publisher: { '@type': 'Organization', name: 'SEO.md', url: 'https://seomd.dev' },
+      mainEntityOfPage: url,
+      url,
+      keywords: post.tags.join(', '),
+    },
+  ];
+  if (faq.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    });
+  }
+  const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
+
   return (
     <div className="min-h-screen bg-surface">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
       <Navbar />
 
       <main className="max-w-3xl mx-auto px-6 md:px-10">
