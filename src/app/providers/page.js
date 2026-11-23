@@ -6,7 +6,7 @@ import SpecFooter from '@/components/SpecFooter';
 export const metadata = {
   title: 'Providers & Provider Protocol (v2.0.0)',
   description:
-    'Vendor-agnostic Provider Protocol for SEO.md v2.0.0. Connect Foxcite natively, run offline with zero API keys, or bridge SEMrush, Ahrefs, Profound, Peec AI, or custom endpoints.',
+    'The SEO.md provider protocol: two HTTP endpoints any SEO or AEO platform can implement for live citation scans. Foxcite is the reference; others can bridge.',
   alternates: {
     canonical: '/providers',
   },

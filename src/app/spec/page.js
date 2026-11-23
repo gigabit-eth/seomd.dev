@@ -10,7 +10,7 @@ import { Link } from 'lucide-react';
 export const metadata = {
   title: 'SEO.md Specification (v2.0.0)',
   description:
-    'The official SEO.md v2.0.0 open standard specification — Markdown + YAML frontmatter for AI Engine Optimization, coding-agent wiring, .seo/ workspace, and the vendor-agnostic Provider Protocol.',
+    'The SEO.md v2.0.0 specification: Markdown with YAML frontmatter, coding-agent wiring, the .seo/ workspace and the vendor-neutral provider protocol.',
   alternates: {
     canonical: '/spec',
   },

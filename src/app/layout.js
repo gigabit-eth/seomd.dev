@@ -35,7 +35,7 @@ export const metadata = {
     template: '%s | SEO.md',
   },
   description:
-    'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
+    'SEO.md is an open standard for AI search optimization: a version-controlled file your team and coding agents use to ship pages AI engines can cite.',
   keywords: ['SEO.md', 'AEO', 'AI Engine Optimization', 'LLM SEO', 'citation tracking', 'open standard', 'seomd'],
   authors: [{ name: 'SEO.md Contributors' }],
   alternates: {
@@ -48,7 +48,7 @@ export const metadata = {
     siteName: 'SEO.md',
     title: 'SEO.md — The Open Standard for AI Search Optimization',
     description:
-      'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
+      'SEO.md is an open standard for AI search optimization: a version-controlled file your team and coding agents use to ship pages AI engines can cite.',
     images: [
       {
         url: '/og-image.png',
@@ -65,7 +65,7 @@ export const metadata = {
     // creator: '@nobluelinks',
     title: 'SEO.md — The Open Standard for AI Search Optimization',
     description:
-      'SEO.md is an open standard for AI Engine Optimization (AEO) — a version-controlled spec file that tells AI search engines how to cite your brand.',
+      'SEO.md is an open standard for AI search optimization: a version-controlled file your team and coding agents use to ship pages AI engines can cite.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -113,23 +113,32 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-surface text-on-surface font-body antialiased">
         {/* Structured Schema Data (JSON-LD) */}
-        <Script
-          id="structured-data"
+        {/* Plain <script>, not next/script: next/script injects it with JS, so crawlers that
+            don't run JavaScript (most AI crawlers) never saw it in the HTML. */}
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "SEO.md",
-              "url": "https://seomd.dev",
-              "description": "The open standard for AI Engine Optimization (AEO).",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://seomd.dev/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
-            }),
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'WebSite',
+                  name: 'SEO.md',
+                  url: 'https://seomd.dev',
+                  description: 'An open standard for AI search optimization.',
+                },
+                {
+                  '@type': 'SoftwareApplication',
+                  name: 'seomd-cli',
+                  applicationCategory: 'DeveloperApplication',
+                  operatingSystem: 'Any (Node.js)',
+                  url: 'https://seomd.dev',
+                  downloadUrl: 'https://www.npmjs.com/package/seomd-cli',
+                  license: 'https://opensource.org/licenses/MIT',
+                  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+                },
+              ],
+            }).replace(/</g, '\\u003c'),
           }}
         />
         {/* Google Tag Manager (noscript) */}
