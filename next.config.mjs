@@ -3,7 +3,7 @@ import createMDX from '@next/mdx';
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: ['remark-frontmatter'],
+    remarkPlugins: ['remark-frontmatter', 'remark-gfm'],
   },
 });
 

@@ -500,6 +500,12 @@ code:not(.code-block code) {
   vertical-align: top;
 }
 
+/* Keep short code tokens like --strict whole inside narrow table cells */
+.prose-table code {
+  white-space: nowrap;
+}
+
+
 /* ── Highlight.js overrides for code blocks ── */
 .hljs {
   background: transparent !important;
