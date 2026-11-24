@@ -2,9 +2,11 @@
 title: "AEO vs SEO: Why AI Engine Optimization Changes Everything"
 date: "2026-06-05"
 author: "SEO.md Team"
-summary: "Traditional SEO optimizes for search engine rankings. AEO optimizes for AI engine citations. The mechanics are fundamentally different - here's what that means for your strategy."
+summary: "Traditional SEO optimizes for search rankings. AEO optimizes for AI engine citations. Here's how the mechanics differ and what that means for your strategy."
 tags: ["aeo", "strategy", "ai-search"]
 ---
+
+> **Updated (November 23, 2026):** Examples now use SEO.md v2: page rules live in the Markdown body and provider results in `.seo/STATUS.yml`, not `_analysis` blocks. AI search engines don't read `SEO.md`; it guides your team and the coding agents that build the pages those engines do read. Core Web Vitals now list INP, which replaced FID in 2024.
 
 For twenty years, SEO meant one thing: rank higher on Google.
 
@@ -24,7 +26,7 @@ Traditional search engines evaluate:
 
 - PageRank and link authority
 - Keyword density and relevance
-- Technical performance (CLS, LCP, FID)
+- Technical performance (Core Web Vitals: LCP, INP, CLS)
 - E-E-A-T signals
 
 AI search engines evaluate something different. They need to *understand your brand* well enough to cite it accurately. That means:
@@ -49,28 +51,27 @@ An effective AEO strategy has three layers:
 
 **1. Declaration** - You explicitly define your brand, keywords, intent queries, and AEO rules in a machine-readable file. This is what `SEO.md` handles.
 
-**2. Analysis** - A platform connects to AI engines, runs your intent queries, and measures citation rates. It writes the results back to your `_analysis` blocks.
+**2. Analysis** - A platform connects to AI engines, runs your intent queries, and measures citation rates. It writes the results to `.seo/STATUS.yml`, next to your `SEO.md` and separate from what you wrote.
 
 **3. Remediation** - You use the gap scores to prioritize content creation, structured data additions, and bot access changes that directly improve citation rates.
 
-```yaml
-## AEO
+Your rules live in the Markdown body of `SEO.md`, in plain language an agent can follow:
 
+```markdown
+## Page Rules
+
+- Open every key page with a direct answer in the first 60 words.
+- Add an FAQ with FAQPage JSON-LD to pricing, features and comparison pages.
+```
+
+The platform's measurements land in `.seo/STATUS.yml`:
+
+```yaml
+last_analyzed: 2026-11-20T09:00:00Z
 aeo:
-  answer_first_format: true      # critical for AI citation
-  faq_on_all_key_pages: true
-  structured_data_priority: high
-  content_freshness_target: 30d
-  
-  ### PLATFORM WRITES BACK
-  _analysis:
-    overall_citation_rate: 0.34   # you're cited in 34% of relevant queries
-    overall_gap_score: 66         # 66% gap to close
-    engines_tracked:
-      - chatgpt
-      - claude
-      - perplexity
-      - gemini
+  overall_citation_rate: 0.34   # you're cited in 34% of relevant queries
+  overall_gap_score: 66
+  engines_tracked: [chatgpt, claude, perplexity, gemini]
 ```
 
 ## Why a File, Not a Dashboard?
@@ -87,9 +88,9 @@ The choice to make SEO.md a file - not a SaaS dashboard - is deliberate.
 
 ## The Standard, Not the Tool
 
-SEO.md is a standard, not a product. Like `CLAUDE.md` standardized AI agent instructions, or `AGENTS.md` standardized multi-agent contracts, `SEO.md` aims to standardize the way brands communicate their search intent to AI systems.
+SEO.md is a standard, not a product. Like `AGENTS.md` gave coding agents one predictable place to find project instructions, `SEO.md` aims to standardize where a team writes down its search strategy, so every person and agent building its pages works from the same facts.
 
-The CLI is the reference implementation. Platforms that integrate with the standard - FoxCite, and others - provide the intelligence layer. The spec itself is open and MIT licensed.
+The CLI is the reference implementation. Platforms that integrate with the standard - Foxcite, and others - provide the intelligence layer. The spec itself is open and MIT licensed.
 
 AEO is not replacing SEO. Google search isn't going away. But the marginal return on optimizing for blue-link rankings is declining, and the marginal return on being cited by AI engines is increasing.
 

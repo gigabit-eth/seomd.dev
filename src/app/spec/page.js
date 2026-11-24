@@ -27,6 +27,7 @@ const SPEC_SECTIONS = [
   { id: 'pages', label: 'Pages' },
   { id: 'schema', label: 'Schema' },
   { id: 'crawl', label: 'Crawl' },
+  { id: 'claims', label: 'Claims' },
   { id: 'provider', label: 'Provider' },
   { id: 'workspace', label: '.seo/ Workspace' },
   { id: 'cli', label: 'CLI Commands' },
@@ -342,6 +343,8 @@ Before creating or editing public-facing pages, landing pages, metadata, JSON-LD
                 { name: 'pages[].status', type: 'string', required: true, desc: 'One of: live, draft, planned.' },
                 { name: 'pages[].priority', type: 'number', required: true, desc: 'Numeric build/audit priority (1 = highest).' },
                 { name: 'pages[].keyword', type: 'string', required: false, desc: 'Optional page-specific target keyword.' },
+                { name: 'pages[].title', type: 'string', required: false, desc: 'Link text for the page in generated `llms.txt`. Default: a readable form of the URL.' },
+                { name: 'pages[].description', type: 'string', required: false, desc: 'One-line summary shown after the link in generated `llms.txt`.' },
               ],
             },
             {
@@ -363,11 +366,23 @@ Before creating or editing public-facing pages, landing pages, metadata, JSON-LD
                 { name: 'crawl.robots', type: 'string', required: false, desc: 'Robots path. Default: /robots.txt.' },
                 { name: 'crawl.llms_txt', type: 'string', required: false, desc: 'llms.txt path. Default: /llms.txt.' },
                 { name: 'crawl.allow_ai_bots', type: 'boolean', required: false, desc: 'Allow AI search crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.). Default: true.' },
-                { name: 'crawl.disallow', type: 'string[]', required: false, desc: 'Paths excluded in generated `robots.txt`.' },
+                { name: 'crawl.disallow', type: 'string[]', required: false, desc: 'Paths excluded in generated `robots.txt`, repeated in every crawler group.' },
+                { name: 'crawl.ai_training', type: 'string', required: false, desc: 'allow | block. `block` disallows AI training crawlers (GPTBot, Google-Extended, etc.) while AI search crawlers stay allowed. Default: allow.' },
               ],
             },
             {
               index: '11',
+              id: 'claims',
+              title: 'CLAIMS',
+              desc: 'Facts `seomd check` verifies on rendered pages. A page fails if it shows an unlisted price, in text or JSON-LD offers, or asserts a forbidden phrase outside a question or negation. Placeholder copy such as “TBD”, “TODO” and “lorem ipsum” fails on every page, with or without claims.',
+              fields: [
+                { name: 'claims.prices', type: 'string[]', required: false, desc: 'Every price a page may show, e.g. ["$0", "$99", "$0.08"].' },
+                { name: 'claims.forbidden', type: 'string[]', required: false, desc: 'Phrases no page may assert, e.g. "SOC 2 certified", "unlimited".' },
+                { name: 'claims.skip', type: 'string[]', required: false, desc: 'URL paths where claims are not checked, such as posts that quote competitor prices. `*` matches within one path segment, `**` across segments: ["/blog/*"].' },
+              ],
+            },
+            {
+              index: '12',
               id: 'provider',
               title: 'PROVIDER',
               desc: 'Optional live intelligence provider configuration. Leave null for local-only mode, or point to any platform implementing the Provider Protocol.',
@@ -399,7 +414,7 @@ Before creating or editing public-facing pages, landing pages, metadata, JSON-LD
           ))}
 
           {/* ── 12. .SEO/ WORKSPACE ── */}
-          <SectionHeading index="12" id="workspace">.SEO/ WORKSPACE</SectionHeading>
+          <SectionHeading index="13" id="workspace">.SEO/ WORKSPACE</SectionHeading>
 
           <p className="font-body text-body-md leading-body text-on-surface-variant mb-4">
             Provider-generated outputs are isolated inside <code>.seo/</code> and updated in a
@@ -417,7 +432,7 @@ Before creating or editing public-facing pages, landing pages, metadata, JSON-LD
           </div>
 
           {/* ── 13. CLI COMMANDS ── */}
-          <SectionHeading index="13" id="cli">CLI COMMANDS</SectionHeading>
+          <SectionHeading index="14" id="cli">CLI COMMANDS</SectionHeading>
 
           <div className="overflow-x-auto mb-8">
             <table className="prose-table">
@@ -457,7 +472,7 @@ Before creating or editing public-facing pages, landing pages, metadata, JSON-LD
           </p>
 
           {/* ── 14. VERSIONING ── */}
-          <SectionHeading index="14" id="versioning">VERSIONING</SectionHeading>
+          <SectionHeading index="15" id="versioning">VERSIONING</SectionHeading>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-2 border-primary mb-8">
             <div className="p-6 border-b md:border-b-0 md:border-r border-primary">
